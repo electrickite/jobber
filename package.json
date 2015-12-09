@@ -1,0 +1,10 @@
+{
+  "name": "jobber",
+  "version": "0.1.0",
+  "description": "Displays OSU job postings in new ways",
+  "main": "server.js",
+  "author": "Corey Hinshaw <hinshaw.25@osu.edu>",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
