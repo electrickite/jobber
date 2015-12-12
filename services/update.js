@@ -1,15 +1,23 @@
 var Promise = require('bluebird'),
     request = Promise.promisifyAll(require('request'), {multiArgs: true}),
-    cheerio = require('cheerio');
+    cheerio = require('cheerio'),
+    settings = {};
 
-var JobUpdateService = function() {
+
+var JobUpdateService = function(opts) {
+  var opts = opts || {};
+
+  settings.feedUrl = opts.feedUrl || 'https://www.jobsatosu.com/all_jobs.atom';
+  settings.timeout = opts.timeout || 10 * 1000;
+
   return JobUpdateService;
 };
 
+
 JobUpdateService.execute = function(opts, callback) {
   return request.getAsync({
-    timeout: 10 * 1000,
-    url: 'https://www.jobsatosu.com/all_jobs.atom',
+    timeout: settings.timeout,
+    url: settings.feedUrl,
   }).spread(function (res, body) {
     var $ = cheerio.load(body, {xmlMode:true}),
         jobUrls = [];
@@ -21,5 +29,6 @@ JobUpdateService.execute = function(opts, callback) {
     return jobUrls;
   });
 };
+
 
 exports = module.exports = JobUpdateService();
