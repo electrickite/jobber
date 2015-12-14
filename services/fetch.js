@@ -31,6 +31,10 @@ function fetchAllJobs() {
     timeout: settings.timeout,
     url: settings.feedUrl
   }).spread(function (res, body) {
+    if (res.statusCode != 200) {
+      throw new Error('HTTP response was '+res.statusCode+' '+res.statusMessage);
+    }
+
     var $ = cheerio.load(body, {xmlMode:true}),
         jobs = [];
 
@@ -47,7 +51,12 @@ function fetchJob(id) {
   return request.getAsync({
     timeout: settings.timeout,
     url: settings.postingUrlBase + id,
+    followRedirect: false
   }).spread(function (res, body) {
+    if (res.statusCode != 200) {
+      throw new Error('HTTP response was '+res.statusCode+' '+res.statusMessage);
+    }
+
     var $ = cheerio.load(body);
         $table = $(".form_container table").first(),
         job = {};

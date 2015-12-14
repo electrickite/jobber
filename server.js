@@ -9,7 +9,12 @@ app.get('/jobs', function(req, res) {
     res.json({
       jobs: jobs
     });
-  })
+  }).catch(function (err) {
+    console.log('Error fetching all jobs', err.message);
+    res.status(502).json({
+      message: 'Error retrieving jobs'
+    });
+  });
 });
 
 app.get('/jobs/:id', function(req, res) {
@@ -17,7 +22,12 @@ app.get('/jobs/:id', function(req, res) {
     res.json({
       job: job
     });
-  })
+  }).catch(function (err) {
+    console.log('Error fetching job', err.message);
+    res.status(404).json({
+      message: 'Job not found'
+    });
+  });
 });
 
 // Create server
