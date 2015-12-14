@@ -7,7 +7,7 @@ app.use(express.static('client/dist'));
 
 
 // Routing
-app.get('/jobs', function(req, res) {
+app.get('/api/jobs', function(req, res) {
   fetch.allJobs().then(function(jobs) {
     res.json({
       jobs: jobs
@@ -20,7 +20,7 @@ app.get('/jobs', function(req, res) {
   });
 });
 
-app.get('/jobs/:id', function(req, res) {
+app.get('/api/jobs/:id', function(req, res) {
   fetch.job(req.params.id).then(function(job) {
     res.json({
       job: job

@@ -1,3 +1,12 @@
+define('jobber-client/tests/adapters/application.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - adapters');
+  QUnit.test('adapters/application.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'adapters/application.js should pass jshint.');
+  });
+});
 define('jobber-client/tests/app.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -102,6 +111,15 @@ define('jobber-client/tests/helpers/start-app.jshint', ['exports'], function (ex
     assert.ok(true, 'helpers/start-app.js should pass jshint.');
   });
 });
+define('jobber-client/tests/models/job.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - models');
+  QUnit.test('models/job.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/job.js should pass jshint.');
+  });
+});
 define('jobber-client/tests/router.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -109,6 +127,24 @@ define('jobber-client/tests/router.jshint', ['exports'], function (exports) {
   QUnit.test('router.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'router.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/routes/index.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes');
+  QUnit.test('routes/index.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/index.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/routes/job.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes');
+  QUnit.test('routes/job.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/job.js should pass jshint.');
   });
 });
 define('jobber-client/tests/test-helper', ['exports', 'jobber-client/tests/helpers/resolver', 'ember-qunit'], function (exports, _jobberClientTestsHelpersResolver, _emberQunit) {
@@ -122,6 +158,50 @@ define('jobber-client/tests/test-helper.jshint', ['exports'], function (exports)
   QUnit.test('test-helper.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'test-helper.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/unit/adapters/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('adapter:application', 'Unit | Adapter | application', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var adapter = this.subject();
+    assert.ok(adapter);
+  });
+});
+define('jobber-client/tests/unit/adapters/application-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/adapters');
+  QUnit.test('unit/adapters/application-test.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/adapters/application-test.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/unit/models/job-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('job', 'Unit | Model | job', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('jobber-client/tests/unit/models/job-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/models');
+  QUnit.test('unit/models/job-test.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/job-test.js should pass jshint.');
   });
 });
 /* jshint ignore:start */
