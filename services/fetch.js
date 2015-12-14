@@ -5,6 +5,7 @@ var Promise = require('bluebird'),
     settings = {};
 
 
+// Configure service singleton
 var JobFetchService = function(opts) {
   var opts = opts || {};
 
@@ -17,15 +18,18 @@ var JobFetchService = function(opts) {
 };
 
 
+// Ftech all Jobs, or return from cache. Returns a promise
 JobFetchService.allJobs = function() {
   return cache.wrap('jobs-all', fetchAllJobs(), settings.ttl);
 };
 
+// Fetch one job or return from cache
 JobFetchService.job = function(id) {
   return cache.wrap('jobs-'+id, fetchJob(id), settings.ttl);
 };
 
 
+// Retrieves all jobs from jobs site. Returns a promise
 function fetchAllJobs() {
   return request.getAsync({
     timeout: settings.timeout,
@@ -47,6 +51,7 @@ function fetchAllJobs() {
 }
 
 
+// Retrieves one job from the jobs site. Returns a promise
 function fetchJob(id) {
   return request.getAsync({
     timeout: settings.timeout,
@@ -89,10 +94,12 @@ function fetchJob(id) {
 }
 
 
+// Gets the text content of a table cell by the heading text
 function getRowValue($table, label) {
   return $table.find("th:contains('" + label + "')").siblings('td').text();
 }
 
+// Grab the id from the end of a URL. http://example.com/123 returns 123
 function getIdFromUrl(url) {
   var n = url.lastIndexOf('/');
   return parseInt(url.substring(n + 1));
