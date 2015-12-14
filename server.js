@@ -30,6 +30,30 @@ app.get('/jobs/:id', function(req, res) {
   });
 });
 
+
+// Catch all
+app.get('*', function(req, res, next) {
+  var err = new Error();
+  err.status = 404;
+  next(err);
+});
+
+
+// Handle 404 errors
+app.use(function(err, req, res, next) {
+  if(err.status !== 404) {
+    return next();
+  }
+  res.status(404).json({message: err.message || 'Not found'});
+});
+
+// Handle other errors
+app.use(function(err, req, res, next) {
+  console.log(err, req);
+  res.status(500).json({message: 'Internal server error'});
+});
+
+
 // Create server
 server.listen(3000, function() {
   console.log('Listening on port:', 3000);
