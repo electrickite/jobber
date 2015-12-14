@@ -3,7 +3,7 @@ var express = require('express'),
     server = require('http').Server(app),
     fetch = require('./services/fetch');
 
-app.use(express.static('client/dist'));
+app.use(express.static('public'));
 
 
 // Routing
@@ -36,7 +36,7 @@ app.get('/api/jobs/:id', function(req, res) {
 
 // Catch all. Send client front controller
 app.get('*', function(req, res) {
-  res.sendFile('./client/dist/index.html');
+  res.sendFile('public/index.html', {root: __dirname});
 });
 
 

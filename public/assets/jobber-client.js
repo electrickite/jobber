@@ -355,7 +355,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+0fac8c72"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+184fcdfd"});
 }
 
 /* jshint ignore:end */
