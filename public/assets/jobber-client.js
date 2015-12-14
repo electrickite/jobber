@@ -34,37 +34,65 @@ define('jobber-client/components/app-version', ['exports', 'ember-cli-app-versio
     name: name
   });
 });
-define('jobber-client/components/dynamic-table', ['exports', 'ember'], function (exports, _ember) {
+define('jobber-client/components/jobs-table', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
-    sortProps: [],
-    sortedContent: _ember['default'].computed.sort('content', 'sortProps'),
+    sortProp: null,
+    sortAscending: true,
+    sortDef: [],
+    filterText: '',
+    filterFields: _ember['default'].A(['title', 'department', 'location', 'end']),
+
+    filteredContent: _ember['default'].computed.filter('content', function (job) {
+      var match = false,
+          filter = this.get('filterText');
+
+      this.get('filterFields').forEach(function (field) {
+        var value = job.get(field);
+
+        if (value && value.toString().slice(0, filter.length) === filter) {
+          match = true;
+        }
+      });
+
+      return match;
+    }).property('content', 'filterText'),
+
+    sortedContent: _ember['default'].computed.sort('filteredContent', 'sortDef'),
+
+    // Template helpers
+    sortedOnTitle: (function () {
+      return this.get('sortProp') === 'title';
+    }).property("sortProp"),
+
+    sortedOnDepartment: (function () {
+      return this.get('sortProp') === 'department';
+    }).property("sortProp"),
+
+    sortedOnLocation: (function () {
+      return this.get('sortProp') === 'location';
+    }).property("sortProp"),
+
+    sortedOnEnd: (function () {
+      return this.get('sortProp') === 'end';
+    }).property("sortProp"),
 
     actions: {
-      sort: function sort(direction, key) {
-        this.set('sortProps', [key + ':' + direction]);
+      sort: function sort(prop) {
+        if (this.get('sortProp') === prop) {
+          this.toggleProperty('sortAscending');
+        } else {
+          this.set('sortProp', prop);
+          this.set('sortAscending', true);
+        }
+
+        var direction = this.get('sortAscending') ? 'asc' : 'desc';
+        this.set('sortDef', [prop + ':' + direction]);
       }
     }
   });
 });
 define('jobber-client/controllers/array', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
-});
-define('jobber-client/controllers/index', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({
-    jobColumns: _ember['default'].A([{
-      'key': 'title',
-      'displayName': 'Title'
-    }, {
-      'key': 'department',
-      'displayName': 'Department'
-    }, {
-      'key': 'location',
-      'displayName': 'Location'
-    }, {
-      'key': 'end',
-      'displayName': 'End Date'
-    }])
-  });
 });
 define('jobber-client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
@@ -218,7 +246,7 @@ define("jobber-client/templates/application", ["exports"], function (exports) {
     };
   })());
 });
-define("jobber-client/templates/components/dynamic-table", ["exports"], function (exports) {
+define("jobber-client/templates/components/jobs-table", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -228,128 +256,15 @@ define("jobber-client/templates/components/dynamic-table", ["exports"], function
           "loc": {
             "source": null,
             "start": {
-              "line": 4,
-              "column": 6
-            },
-            "end": {
-              "line": 10,
-              "column": 6
-            }
-          },
-          "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("th");
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("span");
-          dom.setAttribute(el2, "class", "glyphicon glyphicon-triangle-top");
-          dom.setAttribute(el2, "aria-hidden", "true");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("span");
-          dom.setAttribute(el2, "class", "glyphicon glyphicon-triangle-bottom");
-          dom.setAttribute(el2, "aria-hidden", "true");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(element0, [3]);
-          var element2 = dom.childAt(element0, [5]);
-          var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(element0, 1, 1);
-          morphs[1] = dom.createElementMorph(element1);
-          morphs[2] = dom.createElementMorph(element2);
-          return morphs;
-        },
-        statements: [["content", "column.displayName", ["loc", [null, [6, 10], [6, 32]]]], ["element", "action", ["sort", "asc", ["get", "column.key", ["loc", [null, [7, 98], [7, 108]]]]], [], ["loc", [null, [7, 76], [7, 110]]]], ["element", "action", ["sort", "desc", ["get", "column.key", ["loc", [null, [8, 102], [8, 112]]]]], [], ["loc", [null, [8, 79], [8, 114]]]]],
-        locals: ["column"],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.2.0",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 16,
-                "column": 8
-              },
-              "end": {
-                "line": 20,
-                "column": 8
-              }
-            },
-            "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
-          },
-          isEmpty: false,
-          arity: 1,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("td");
-            var el2 = dom.createTextNode("\n            ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n          ");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
-            return morphs;
-          },
-          statements: [["inline", "get", [["get", "item", ["loc", [null, [18, 18], [18, 22]]]], ["get", "column.key", ["loc", [null, [18, 23], [18, 33]]]]], [], ["loc", [null, [18, 12], [18, 35]]]]],
-          locals: ["column"],
-          templates: []
-        };
-      })();
-      return {
-        meta: {
-          "fragmentReason": false,
-          "revision": "Ember@2.2.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 14,
+              "line": 21,
               "column": 4
             },
             "end": {
-              "line": 22,
+              "line": 28,
               "column": 4
             }
           },
-          "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
+          "moduleName": "jobber-client/templates/components/jobs-table.hbs"
         },
         isEmpty: false,
         arity: 1,
@@ -360,11 +275,31 @@ define("jobber-client/templates/components/dynamic-table", ["exports"], function
           var el1 = dom.createTextNode("      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
-          var el2 = dom.createTextNode("\n");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
+          var el2 = dom.createElement("td");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("      ");
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -372,19 +307,24 @@ define("jobber-client/templates/components/dynamic-table", ["exports"], function
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+          var element0 = dom.childAt(fragment, [1]);
+          var morphs = new Array(4);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
+          morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 0, 0);
+          morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 0, 0);
           return morphs;
         },
-        statements: [["block", "each", [["get", "columns", ["loc", [null, [16, 16], [16, 23]]]]], [], 0, null, ["loc", [null, [16, 8], [20, 17]]]]],
-        locals: ["item"],
-        templates: [child0]
+        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [23, 22], [23, 31]]]], "job", ["get", "job", ["loc", [null, [23, 38], [23, 41]]]]], [], ["loc", [null, [23, 12], [23, 43]]]], ["content", "job.department", ["loc", [null, [24, 12], [24, 30]]]], ["content", "job.location", ["loc", [null, [25, 12], [25, 28]]]], ["content", "job.end", ["loc", [null, [26, 12], [26, 23]]]]],
+        locals: ["job"],
+        templates: []
       };
     })();
     return {
       meta: {
         "fragmentReason": {
-          "name": "triple-curlies"
+          "name": "missing-wrapper",
+          "problems": ["wrong-type", "multiple-nodes"]
         },
         "revision": "Ember@2.2.0",
         "loc": {
@@ -394,11 +334,11 @@ define("jobber-client/templates/components/dynamic-table", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 25,
+            "line": 31,
             "column": 0
           }
         },
-        "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
+        "moduleName": "jobber-client/templates/components/jobs-table.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -406,19 +346,59 @@ define("jobber-client/templates/components/dynamic-table", ["exports"], function
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("table");
-        dom.setAttribute(el1, "class", "table");
+        dom.setAttribute(el1, "class", "table table-striped");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("thead");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("tr");
-        var el4 = dom.createTextNode("\n");
+        var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
+        var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("Title\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("    ");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("Department\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("Location\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("End Date\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
@@ -442,15 +422,33 @@ define("jobber-client/templates/components/dynamic-table", ["exports"], function
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element3 = dom.childAt(fragment, [0]);
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element3, [1, 1]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element3, [3]), 1, 1);
+        var element1 = dom.childAt(fragment, [2]);
+        var element2 = dom.childAt(element1, [1, 1]);
+        var element3 = dom.childAt(element2, [1]);
+        var element4 = dom.childAt(element3, [1]);
+        var element5 = dom.childAt(element2, [3]);
+        var element6 = dom.childAt(element5, [1]);
+        var element7 = dom.childAt(element2, [5]);
+        var element8 = dom.childAt(element7, [1]);
+        var element9 = dom.childAt(element2, [7]);
+        var element10 = dom.childAt(element9, [1]);
+        var morphs = new Array(10);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createElementMorph(element3);
+        morphs[2] = dom.createAttrMorph(element4, 'class');
+        morphs[3] = dom.createElementMorph(element5);
+        morphs[4] = dom.createAttrMorph(element6, 'class');
+        morphs[5] = dom.createElementMorph(element7);
+        morphs[6] = dom.createAttrMorph(element8, 'class');
+        morphs[7] = dom.createElementMorph(element9);
+        morphs[8] = dom.createAttrMorph(element10, 'class');
+        morphs[9] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
+        dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["block", "each", [["get", "columns", ["loc", [null, [4, 14], [4, 21]]]]], [], 0, null, ["loc", [null, [4, 6], [10, 15]]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [14, 12], [14, 25]]]]], [], 1, null, ["loc", [null, [14, 4], [22, 13]]]]],
+      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [1, 14], [1, 24]]]]], [], []], "type", "text", "placeholder", "Filter", "class", "form-control"], ["loc", [null, [1, 0], [1, 80]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [6, 10], [6, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [7, 33], [7, 46]]]], "sorted"], [], ["loc", [null, [7, 28], [7, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [7, 63], [7, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [7, 58], [7, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [9, 10], [9, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [10, 33], [10, 51]]]], "sorted"], [], ["loc", [null, [10, 28], [10, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [10, 68], [10, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [10, 63], [10, 131]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [12, 10], [12, 38]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [13, 33], [13, 49]]]], "sorted"], [], ["loc", [null, [13, 28], [13, 60]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [13, 66], [13, 79]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [13, 61], [13, 129]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [15, 10], [15, 33]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [16, 33], [16, 44]]]], "sorted"], [], ["loc", [null, [16, 28], [16, 55]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [16, 61], [16, 74]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [16, 56], [16, 124]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [21, 12], [21, 25]]]]], [], 0, null, ["loc", [null, [21, 4], [28, 13]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0]
     };
   })());
 });
@@ -499,7 +497,7 @@ define("jobber-client/templates/index", ["exports"], function (exports) {
         morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         return morphs;
       },
-      statements: [["inline", "dynamic-table", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [2, 24], [2, 29]]]]], [], []], "columns", ["subexpr", "@mut", [["get", "jobColumns", ["loc", [null, [2, 38], [2, 48]]]]], [], []]], ["loc", [null, [2, 0], [2, 50]]]]],
+      statements: [["inline", "jobs-table", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [2, 21], [2, 26]]]]], [], []]], ["loc", [null, [2, 0], [2, 28]]]]],
       locals: [],
       templates: []
     };
@@ -595,7 +593,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+b721d95f"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+698546aa"});
 }
 
 /* jshint ignore:end */

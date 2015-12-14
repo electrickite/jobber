@@ -1,0 +1,30 @@
+{{input value=filterText type="text" placeholder="Filter" class="form-control"}}
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th {{action "sort" "title"}}>Title
+        <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "department"}}>Department
+        <span class="sorter {{if sortedOnDepartment "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "location"}}>Location
+        <span class="sorter {{if sortedOnLocation "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "end"}}>End Date
+        <span class="sorter {{if sortedOnEnd "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each sortedContent as |job|}}
+      <tr>
+        <td>{{link-to job.title 'job' job}}</td>
+        <td>{{job.department}}</td>
+        <td>{{job.location}}</td>
+        <td>{{job.end}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

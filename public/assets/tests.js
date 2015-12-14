@@ -16,22 +16,13 @@ define('jobber-client/tests/app.jshint', ['exports'], function (exports) {
     assert.ok(true, 'app.js should pass jshint.');
   });
 });
-define('jobber-client/tests/components/dynamic-table.jshint', ['exports'], function (exports) {
+define('jobber-client/tests/components/jobs-table.jshint', ['exports'], function (exports) {
   'use strict';
 
   QUnit.module('JSHint - components');
-  QUnit.test('components/dynamic-table.js should pass jshint', function (assert) {
+  QUnit.test('components/jobs-table.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'components/dynamic-table.js should pass jshint.');
-  });
-});
-define('jobber-client/tests/controllers/index.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - controllers');
-  QUnit.test('controllers/index.js should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'controllers/index.js should pass jshint.');
+    assert.ok(true, 'components/jobs-table.js should pass jshint.');
   });
 });
 define('jobber-client/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
@@ -129,7 +120,7 @@ define('jobber-client/tests/helpers/start-app.jshint', ['exports'], function (ex
     assert.ok(true, 'helpers/start-app.js should pass jshint.');
   });
 });
-define('jobber-client/tests/integration/components/dynamic-table-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+define('jobber-client/tests/integration/components/jobs-table-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('dynamic-table', 'Integration | Component | dynamic table', {
     integration: true
@@ -143,7 +134,11 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@1.13.11',
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.2.0',
           'loc': {
             'source': null,
             'start': {
@@ -156,6 +151,7 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
             }
           }
         },
+        isEmpty: false,
         arity: 0,
         cachedFragment: null,
         hasRendered: false,
@@ -185,7 +181,8 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
       var child0 = (function () {
         return {
           meta: {
-            'revision': 'Ember@1.13.11',
+            'fragmentReason': false,
+            'revision': 'Ember@2.2.0',
             'loc': {
               'source': null,
               'start': {
@@ -198,6 +195,7 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
               }
             }
           },
+          isEmpty: false,
           arity: 0,
           cachedFragment: null,
           hasRendered: false,
@@ -218,7 +216,11 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
 
       return {
         meta: {
-          'revision': 'Ember@1.13.11',
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.2.0',
           'loc': {
             'source': null,
             'start': {
@@ -231,6 +233,7 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
             }
           }
         },
+        isEmpty: false,
         arity: 0,
         cachedFragment: null,
         hasRendered: false,
@@ -258,13 +261,13 @@ define('jobber-client/tests/integration/components/dynamic-table-test', ['export
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('jobber-client/tests/integration/components/dynamic-table-test.jshint', ['exports'], function (exports) {
+define('jobber-client/tests/integration/components/jobs-table-test.jshint', ['exports'], function (exports) {
   'use strict';
 
   QUnit.module('JSHint - integration/components');
-  QUnit.test('integration/components/dynamic-table-test.js should pass jshint', function (assert) {
+  QUnit.test('integration/components/jobs-table-test.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/components/dynamic-table-test.js should pass jshint.');
+    assert.ok(true, 'integration/components/jobs-table-test.js should pass jshint.');
   });
 });
 define('jobber-client/tests/models/job.jshint', ['exports'], function (exports) {
