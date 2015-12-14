@@ -34,11 +34,9 @@ app.get('/api/jobs/:id', function(req, res) {
 });
 
 
-// Catch all
-app.get('*', function(req, res, next) {
-  var err = new Error();
-  err.status = 404;
-  next(err);
+// Catch all. Send client front controller
+app.get('*', function(req, res) {
+  res.sendFile('./client/dist/index.html');
 });
 
 
