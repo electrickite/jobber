@@ -34,8 +34,37 @@ define('jobber-client/components/app-version', ['exports', 'ember-cli-app-versio
     name: name
   });
 });
+define('jobber-client/components/dynamic-table', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    sortProps: [],
+    sortedContent: _ember['default'].computed.sort('content', 'sortProps'),
+
+    actions: {
+      sort: function sort(direction, key) {
+        this.set('sortProps', [key + ':' + direction]);
+      }
+    }
+  });
+});
 define('jobber-client/controllers/array', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
+});
+define('jobber-client/controllers/index', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    jobColumns: _ember['default'].A([{
+      'key': 'title',
+      'displayName': 'Title'
+    }, {
+      'key': 'department',
+      'displayName': 'Department'
+    }, {
+      'key': 'location',
+      'displayName': 'Location'
+    }, {
+      'key': 'end',
+      'displayName': 'End Date'
+    }])
+  });
 });
 define('jobber-client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
@@ -135,7 +164,10 @@ define("jobber-client/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@1.13.11",
+        "fragmentReason": {
+          "name": "triple-curlies"
+        },
+        "revision": "Ember@2.2.0",
         "loc": {
           "source": null,
           "start": {
@@ -149,6 +181,7 @@ define("jobber-client/templates/application", ["exports"], function (exports) {
         },
         "moduleName": "jobber-client/templates/application.hbs"
       },
+      isEmpty: false,
       arity: 0,
       cachedFragment: null,
       hasRendered: false,
@@ -185,34 +218,153 @@ define("jobber-client/templates/application", ["exports"], function (exports) {
     };
   })());
 });
-define("jobber-client/templates/index", ["exports"], function (exports) {
+define("jobber-client/templates/components/dynamic-table", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@1.13.11",
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
           "loc": {
             "source": null,
             "start": {
-              "line": 3,
-              "column": 2
+              "line": 4,
+              "column": 6
             },
             "end": {
-              "line": 5,
-              "column": 2
+              "line": 10,
+              "column": 6
             }
           },
-          "moduleName": "jobber-client/templates/index.hbs"
+          "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
         },
+        isEmpty: false,
         arity: 1,
         cachedFragment: null,
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("    ");
+          var el1 = dom.createTextNode("        ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createElement("li");
+          var el1 = dom.createElement("th");
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("span");
+          dom.setAttribute(el2, "class", "glyphicon glyphicon-triangle-top");
+          dom.setAttribute(el2, "aria-hidden", "true");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("span");
+          dom.setAttribute(el2, "class", "glyphicon glyphicon-triangle-bottom");
+          dom.setAttribute(el2, "aria-hidden", "true");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(element0, [3]);
+          var element2 = dom.childAt(element0, [5]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(element0, 1, 1);
+          morphs[1] = dom.createElementMorph(element1);
+          morphs[2] = dom.createElementMorph(element2);
+          return morphs;
+        },
+        statements: [["content", "column.displayName", ["loc", [null, [6, 10], [6, 32]]]], ["element", "action", ["sort", "asc", ["get", "column.key", ["loc", [null, [7, 98], [7, 108]]]]], [], ["loc", [null, [7, 76], [7, 110]]]], ["element", "action", ["sort", "desc", ["get", "column.key", ["loc", [null, [8, 102], [8, 112]]]]], [], ["loc", [null, [8, 79], [8, 114]]]]],
+        locals: ["column"],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.2.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 16,
+                "column": 8
+              },
+              "end": {
+                "line": 20,
+                "column": 8
+              }
+            },
+            "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("td");
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n          ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+            return morphs;
+          },
+          statements: [["inline", "get", [["get", "item", ["loc", [null, [18, 18], [18, 22]]]], ["get", "column.key", ["loc", [null, [18, 23], [18, 33]]]]], [], ["loc", [null, [18, 12], [18, 35]]]]],
+          locals: ["column"],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 14,
+              "column": 4
+            },
+            "end": {
+              "line": 22,
+              "column": 4
+            }
+          },
+          "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("tr");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("      ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -221,17 +373,20 @@ define("jobber-client/templates/index", ["exports"], function (exports) {
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [4, 18], [4, 27]]]], "job", ["get", "job", ["loc", [null, [4, 34], [4, 37]]]]], [], ["loc", [null, [4, 8], [4, 39]]]]],
-        locals: ["job"],
-        templates: []
+        statements: [["block", "each", [["get", "columns", ["loc", [null, [16, 16], [16, 23]]]]], [], 0, null, ["loc", [null, [16, 8], [20, 17]]]]],
+        locals: ["item"],
+        templates: [child0]
       };
     })();
     return {
       meta: {
-        "revision": "Ember@1.13.11",
+        "fragmentReason": {
+          "name": "triple-curlies"
+        },
+        "revision": "Ember@2.2.0",
         "loc": {
           "source": null,
           "start": {
@@ -239,12 +394,89 @@ define("jobber-client/templates/index", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 7,
+            "line": 25,
+            "column": 0
+          }
+        },
+        "moduleName": "jobber-client/templates/components/dynamic-table.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("table");
+        dom.setAttribute(el1, "class", "table");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("thead");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("tr");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("tbody");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element3 = dom.childAt(fragment, [0]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(element3, [1, 1]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element3, [3]), 1, 1);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "columns", ["loc", [null, [4, 14], [4, 21]]]]], [], 0, null, ["loc", [null, [4, 6], [10, 15]]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [14, 12], [14, 25]]]]], [], 1, null, ["loc", [null, [14, 4], [22, 13]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
+define("jobber-client/templates/index", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes", "wrong-type"]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
             "column": 0
           }
         },
         "moduleName": "jobber-client/templates/index.hbs"
       },
+      isEmpty: false,
       arity: 0,
       cachedFragment: null,
       hasRendered: false,
@@ -256,11 +488,7 @@ define("jobber-client/templates/index", ["exports"], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createElement("ul");
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -268,12 +496,12 @@ define("jobber-client/templates/index", ["exports"], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
+        morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [3, 10], [3, 15]]]]], [], 0, null, ["loc", [null, [3, 2], [5, 11]]]]],
+      statements: [["inline", "dynamic-table", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [2, 24], [2, 29]]]]], [], []], "columns", ["subexpr", "@mut", [["get", "jobColumns", ["loc", [null, [2, 38], [2, 48]]]]], [], []]], ["loc", [null, [2, 0], [2, 50]]]]],
       locals: [],
-      templates: [child0]
+      templates: []
     };
   })());
 });
@@ -281,7 +509,11 @@ define("jobber-client/templates/job", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@1.13.11",
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.2.0",
         "loc": {
           "source": null,
           "start": {
@@ -295,6 +527,7 @@ define("jobber-client/templates/job", ["exports"], function (exports) {
         },
         "moduleName": "jobber-client/templates/job.hbs"
       },
+      isEmpty: false,
       arity: 0,
       cachedFragment: null,
       hasRendered: false,
@@ -362,7 +595,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+ef63aaea"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+b721d95f"});
 }
 
 /* jshint ignore:end */

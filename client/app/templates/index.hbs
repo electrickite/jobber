@@ -1,6 +1,2 @@
 <h2>All Jobs</h2>
-<ul>
-  {{#each model as |job|}}
-    <li>{{link-to job.title 'job' job}}</li>
-  {{/each}}
-</ul>
+{{dynamic-table content=model columns=jobColumns}}

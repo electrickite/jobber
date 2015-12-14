@@ -68,7 +68,7 @@ function fetchJob(id) {
     job.positions = parseInt(getRowValue($table, 'Number of Positions Available'));
     job.title = getRowValue($table, 'University Title');
     job.working_title = getRowValue($table, 'Working Title');
-    job.department = getRowValue($table, 'Department');
+    job.department = $table.find("th:contains('Department')").not("th:contains('Location')").siblings('td').text();
     job.location = getRowValue($table, 'Department Location');
     job.requisition = parseInt(getRowValue($table, 'Requisition Number'));
     job.summary = getRowValue($table, 'Summary of Duties');
