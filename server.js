@@ -3,6 +3,9 @@ var express = require('express'),
     server = require('http').Server(app),
     fetch = require('./services/fetch');
 
+app.use(express.static('client/dist'));
+
+
 // Routing
 app.get('/jobs', function(req, res) {
   fetch.allJobs().then(function(jobs) {
