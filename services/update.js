@@ -20,47 +20,47 @@ JobUpdateService.execute = function(opts, callback) {
     url: settings.feedUrl,
   }).spread(function (res, body) {
     var $ = cheerio.load(body, {xmlMode:true}),
-        jobUrls = [];
+        jobs = [];
 
     $('feed entry link').each(function() {
-      jobUrls.push($(this).attr('href'));
+      jobs.push(request.getAsync({
+        timeout: settings.timeout,
+        url: $(this).attr('href'),
+      }).spread(function (res, body) {
+        var $ = cheerio.load(body);
+            $table = $(".form_container table").first(),
+            job = {};
+
+        job.link = res.request.uri.href;
+        var n = job.link.lastIndexOf('/');
+        job.id = parseInt(job.link.substring(n + 1));
+
+        job.top_message = getRowValue($table, 'Top Message');
+        job.applicant_message = getRowValue($table, 'Message to Applicants');
+        job.positions = parseInt(getRowValue($table, 'Number of Positions Available'));
+        job.title = getRowValue($table, 'University Title');
+        job.working_title = getRowValue($table, 'Working Title');
+        job.department = getRowValue($table, 'Department');
+        job.location = getRowValue($table, 'Department Location');
+        job.requisition = parseInt(getRowValue($table, 'Requisition Number'));
+        job.summary = getRowValue($table, 'Summary of Duties');
+        job.additional = getRowValue($table, 'Additional Information for Applicants');
+        job.screening = getRowValue($table, 'Pre Employment Screening');
+        job.required = getRowValue($table, 'Required Qualifications');
+        job.desired = getRowValue($table, 'Desired Qualifications');
+        job.salary = getRowValue($table, 'Target Salary');
+        job.time = getRowValue($table, 'Full/Part Time');
+        job.duration = getRowValue($table, 'Temporary or Regular');
+        job.start = getRowValue($table, 'Posting Start Date');
+        job.end = getRowValue($table, 'Posting End Date');
+        job.contact_name = getRowValue($table, 'Dept Contact Name');
+        job.contact_phone = getRowValue($table, 'Dept Contact Phone');
+
+        return job;
+      }));
     });
 
-    return request.getAsync({
-      timeout: settings.timeout,
-      url: jobUrls[0],
-    });
-  }).spread(function (res, body) {
-    var $ = cheerio.load(body);
-        $table = $(".form_container table").first(),
-        job = {};
-
-    job.link = res.request.uri.href;
-    var n = job.link.lastIndexOf('/');
-    job.id = parseInt(job.link.substring(n + 1));
-
-    job.top_message = getRowValue($table, 'Top Message');
-    job.applicant_message = getRowValue($table, 'Message to Applicants');
-    job.positions = parseInt(getRowValue($table, 'Number of Positions Available'));
-    job.title = getRowValue($table, 'University Title');
-    job.working_title = getRowValue($table, 'Working Title');
-    job.department = getRowValue($table, 'Department');
-    job.location = getRowValue($table, 'Department Location');
-    job.requisition = parseInt(getRowValue($table, 'Requisition Number'));
-    job.summary = getRowValue($table, 'Summary of Duties');
-    job.additional = getRowValue($table, 'Additional Information for Applicants');
-    job.screening = getRowValue($table, 'Pre Employment Screening');
-    job.required = getRowValue($table, 'Required Qualifications');
-    job.desired = getRowValue($table, 'Desired Qualifications');
-    job.salary = getRowValue($table, 'Target Salary');
-    job.time = getRowValue($table, 'Full/Part Time');
-    job.duration = getRowValue($table, 'Temporary or Regular');
-    job.start = getRowValue($table, 'Posting Start Date');
-    job.end = getRowValue($table, 'Posting End Date');
-    job.contact_name = getRowValue($table, 'Dept Contact Name');
-    job.contact_phone = getRowValue($table, 'Dept Contact Phone');
-
-    return job;
+    return Promise.all(jobs);
   });
 };
 

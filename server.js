@@ -4,8 +4,8 @@ var express = require('express'),
     updater = require('./services/update.js');
 
 app.get('/', function(req, res) {
-  updater.execute().then(function(urls) {
-    res.json(urls);
+  updater.execute().then(function(jobs) {
+    res.json(jobs);
   });
 });
 
