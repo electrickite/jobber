@@ -6,6 +6,7 @@
 /* Bootstrap overrides */
 .dl-horizontal dt {width:120px;}
 .dl-horizontal dd {margin-left:140px;}
+.apply-button, #all-jobs {margin-bottom:15px;}
 
 
 /* Bubblle chart */

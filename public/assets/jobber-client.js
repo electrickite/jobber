@@ -1808,7 +1808,7 @@ define("jobber-client/templates/job", ["exports"], function (exports) {
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("a");
-        dom.setAttribute(el3, "class", "btn btn-block btn-lg btn-danger");
+        dom.setAttribute(el3, "class", "btn btn-block btn-lg btn-danger apply-button");
         var el4 = dom.createTextNode("Apply for this position!");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
@@ -2020,7 +2020,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+3382af4d"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+5564d135"});
 }
 
 /* jshint ignore:end */
