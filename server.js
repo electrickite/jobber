@@ -12,11 +12,11 @@ app.get('/api/jobs', function(req, res) {
     res.json({
       jobs: jobs
     });
-  }).catch(function (err) {
-    console.log('Error fetching all jobs', err.message);
-    res.status(502).json({
-      message: 'Error retrieving jobs'
-    });
+  // }).catch(function (err) {
+  //   console.log('Error fetching all jobs', err.message);
+  //   res.status(502).json({
+  //     message: 'Error retrieving jobs'
+  //   });
   });
 });
 

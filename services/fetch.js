@@ -64,6 +64,8 @@ function fetchJob(id) {
 
     var $ = cheerio.load(body);
         $table = $(".form_container table").first(),
+        start = new Date(getRowValue($table, 'Posting Start Date')),
+        end = new Date(getRowValue($table, 'Posting End Date')),
         job = {};
 
     job.id = getIdFromUrl(res.request.uri.href);
@@ -82,12 +84,16 @@ function fetchJob(id) {
     job.required = getRowValue($table, 'Required Qualifications');
     job.desired = getRowValue($table, 'Desired Qualifications');
     job.salary = getRowValue($table, 'Target Salary');
+    job.category = getRowValue($table, 'Job Category');
+    job.fte = parseFloat(getRowValue($table, 'Job Appointment')) / 100;
     job.time = getRowValue($table, 'Full/Part Time');
     job.duration = getRowValue($table, 'Temporary or Regular');
-    job.start = getRowValue($table, 'Posting Start Date');
-    job.end = getRowValue($table, 'Posting End Date');
+    job.start = start.toJSON();
+    job.end = end.toJSON();
     job.contact_name = getRowValue($table, 'Dept Contact Name');
     job.contact_phone = getRowValue($table, 'Dept Contact Phone');
+
+    addSalariesToJob(job);
 
     return job;
   });
@@ -104,5 +110,29 @@ function getIdFromUrl(url) {
   var n = url.lastIndexOf('/');
   return parseInt(url.substring(n + 1));
 }
+
+// Finds real salaries from salary range string
+function addSalariesToJob(job) {
+  job.salary = job.salary.trim();
+  job.salary_low = job.salary_high = job.salary_average = 0;
+
+  if (!job.salary) return;
+
+  var numbers = job.salary.replace(/[^\d.-]/g, '');
+  var parts = numbers.split('-');
+
+  job.salary_low = parseFloat(parts[0]);
+  if (parts.length > 1) {
+    job.salary_high = parseFloat(parts[1]);
+  }
+
+  if (job.salary.match("Hourly$") == 'Hourly') {
+    job.salary_low = job.salary_low * job.fte * 2087;
+    job.salary_high = job.salary_high * job.fte * 2087;
+  }
+
+  job.salary_average = (job.salary_low + job.salary_high) / 2;
+}
+
 
 exports = module.exports = JobFetchService();
