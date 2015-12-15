@@ -64,6 +64,10 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
       return this.get('sortProp') === 'title';
     }).property("sortProp"),
 
+    sortedOnWorkingTitle: (function () {
+      return this.get('sortProp') === 'working_title';
+    }).property("sortProp"),
+
     sortedOnDepartment: (function () {
       return this.get('sortProp') === 'department';
     }).property("sortProp"),
@@ -96,6 +100,42 @@ define('jobber-client/controllers/array', ['exports', 'ember'], function (export
 });
 define('jobber-client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
+});
+define('jobber-client/helpers/moment-duration', ['exports', 'ember-moment/helpers/moment-duration'], function (exports, _emberMomentHelpersMomentDuration) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMomentHelpersMomentDuration['default'];
+    }
+  });
+});
+define('jobber-client/helpers/moment-format', ['exports', 'ember', 'jobber-client/config/environment', 'ember-moment/helpers/moment-format'], function (exports, _ember, _jobberClientConfigEnvironment, _emberMomentHelpersMomentFormat) {
+  exports['default'] = _emberMomentHelpersMomentFormat['default'].extend({
+    globalAllowEmpty: !!_ember['default'].get(_jobberClientConfigEnvironment['default'], 'moment.allowEmpty')
+  });
+});
+define('jobber-client/helpers/moment-from-now', ['exports', 'ember', 'jobber-client/config/environment', 'ember-moment/helpers/moment-from-now'], function (exports, _ember, _jobberClientConfigEnvironment, _emberMomentHelpersMomentFromNow) {
+  exports['default'] = _emberMomentHelpersMomentFromNow['default'].extend({
+    globalAllowEmpty: !!_ember['default'].get(_jobberClientConfigEnvironment['default'], 'moment.allowEmpty')
+  });
+});
+define('jobber-client/helpers/moment-to-now', ['exports', 'ember', 'jobber-client/config/environment', 'ember-moment/helpers/moment-to-now'], function (exports, _ember, _jobberClientConfigEnvironment, _emberMomentHelpersMomentToNow) {
+  exports['default'] = _emberMomentHelpersMomentToNow['default'].extend({
+    globalAllowEmpty: !!_ember['default'].get(_jobberClientConfigEnvironment['default'], 'moment.allowEmpty')
+  });
+});
+define("jobber-client/helpers/truncate", ["exports", "ember"], function (exports, _ember) {
+  exports["default"] = _ember["default"].Helper.extend({
+    compute: function compute(params, hash) {
+      var text = params[0],
+          limit = hash.limit || 100;
+
+      if (text.length > limit) {
+        text = text.substr(0, limit - 3) + "...";
+      }
+      return text;
+    }
+  });
 });
 define('jobber-client/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'jobber-client/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _jobberClientConfigEnvironment) {
   exports['default'] = {
@@ -153,11 +193,16 @@ define('jobber-client/models/job', ['exports', 'ember-data'], function (exports,
     screening: _emberData['default'].attr('string'),
     required: _emberData['default'].attr('string'),
     desired: _emberData['default'].attr('string'),
+    fte: _emberData['default'].attr('string'),
+    category: _emberData['default'].attr('string'),
     salary: _emberData['default'].attr('string'),
+    salary_low: _emberData['default'].attr('number'),
+    salary_high: _emberData['default'].attr('number'),
+    salary_average: _emberData['default'].attr('number'),
     time: _emberData['default'].attr('string'),
     duration: _emberData['default'].attr('string'),
-    start: _emberData['default'].attr('string'),
-    end: _emberData['default'].attr('string'),
+    start: _emberData['default'].attr('date'),
+    end: _emberData['default'].attr('date'),
     contact_name: _emberData['default'].attr('string'),
     contact_phone: _emberData['default'].attr('string')
   });
@@ -187,6 +232,11 @@ define('jobber-client/routes/job', ['exports', 'ember'], function (exports, _emb
     model: function model(params) {
       return this.store.findRecord('job', params.job_id);
     }
+  });
+});
+define('jobber-client/services/moment', ['exports', 'ember', 'jobber-client/config/environment', 'ember-moment/services/moment'], function (exports, _ember, _jobberClientConfigEnvironment, _emberMomentServicesMoment) {
+  exports['default'] = _emberMomentServicesMoment['default'].extend({
+    defaultFormat: _ember['default'].get(_jobberClientConfigEnvironment['default'], 'moment.outputFormat')
   });
 });
 define("jobber-client/templates/application", ["exports"], function (exports) {
@@ -431,11 +481,11 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 21,
+              "line": 24,
               "column": 4
             },
             "end": {
-              "line": 28,
+              "line": 37,
               "column": 4
             }
           },
@@ -474,6 +524,29 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("tr");
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          dom.setAttribute(el2, "colspan", "5");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n      ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -483,14 +556,16 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1]);
-          var morphs = new Array(4);
+          var morphs = new Array(6);
           morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
           morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 0, 0);
           morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 0, 0);
+          morphs[4] = dom.createMorphAt(dom.childAt(element0, [9]), 0, 0);
+          morphs[5] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [23, 22], [23, 31]]]], "job", ["get", "job", ["loc", [null, [23, 38], [23, 41]]]]], [], ["loc", [null, [23, 12], [23, 43]]]], ["content", "job.department", ["loc", [null, [24, 12], [24, 30]]]], ["content", "job.location", ["loc", [null, [25, 12], [25, 28]]]], ["content", "job.end", ["loc", [null, [26, 12], [26, 23]]]]],
+        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [26, 22], [26, 31]]]], "job", ["get", "job", ["loc", [null, [26, 38], [26, 41]]]]], [], ["loc", [null, [26, 12], [26, 43]]]], ["content", "job.working_title", ["loc", [null, [27, 12], [27, 33]]]], ["content", "job.department", ["loc", [null, [28, 12], [28, 30]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [29, 28], [29, 35]]]], "MM/DD/YYYY"], [], ["loc", [null, [29, 12], [29, 50]]]], ["content", "job.location", ["loc", [null, [30, 12], [30, 28]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [34, 21], [34, 32]]]]], ["limit", "400"], ["loc", [null, [34, 10], [34, 46]]]]],
         locals: ["job"],
         templates: []
       };
@@ -509,7 +584,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 31,
+            "line": 40,
             "column": 0
           }
         },
@@ -546,6 +621,16 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("Working Title\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
         var el5 = dom.createTextNode("Department\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("span");
@@ -556,7 +641,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Location\n        ");
+        var el5 = dom.createTextNode("End Date\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("span");
         dom.appendChild(el4, el5);
@@ -566,7 +651,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("End Date\n        ");
+        var el5 = dom.createTextNode("Location\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("span");
         dom.appendChild(el4, el5);
@@ -607,7 +692,9 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var element8 = dom.childAt(element7, [1]);
         var element9 = dom.childAt(element2, [7]);
         var element10 = dom.childAt(element9, [1]);
-        var morphs = new Array(10);
+        var element11 = dom.childAt(element2, [9]);
+        var element12 = dom.childAt(element11, [1]);
+        var morphs = new Array(12);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
         morphs[1] = dom.createElementMorph(element3);
         morphs[2] = dom.createAttrMorph(element4, 'class');
@@ -617,11 +704,13 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         morphs[6] = dom.createAttrMorph(element8, 'class');
         morphs[7] = dom.createElementMorph(element9);
         morphs[8] = dom.createAttrMorph(element10, 'class');
-        morphs[9] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
+        morphs[9] = dom.createElementMorph(element11);
+        morphs[10] = dom.createAttrMorph(element12, 'class');
+        morphs[11] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [1, 14], [1, 24]]]]], [], []], "type", "text", "placeholder", "Filter", "class", "form-control"], ["loc", [null, [1, 0], [1, 80]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [6, 10], [6, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [7, 33], [7, 46]]]], "sorted"], [], ["loc", [null, [7, 28], [7, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [7, 63], [7, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [7, 58], [7, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [9, 10], [9, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [10, 33], [10, 51]]]], "sorted"], [], ["loc", [null, [10, 28], [10, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [10, 68], [10, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [10, 63], [10, 131]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [12, 10], [12, 38]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [13, 33], [13, 49]]]], "sorted"], [], ["loc", [null, [13, 28], [13, 60]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [13, 66], [13, 79]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [13, 61], [13, 129]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [15, 10], [15, 33]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [16, 33], [16, 44]]]], "sorted"], [], ["loc", [null, [16, 28], [16, 55]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [16, 61], [16, 74]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [16, 56], [16, 124]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [21, 12], [21, 25]]]]], [], 0, null, ["loc", [null, [21, 4], [28, 13]]]]],
+      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [1, 14], [1, 24]]]]], [], []], "type", "text", "placeholder", "Filter", "class", "form-control"], ["loc", [null, [1, 0], [1, 80]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [6, 10], [6, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [7, 33], [7, 46]]]], "sorted"], [], ["loc", [null, [7, 28], [7, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [7, 63], [7, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [7, 58], [7, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [9, 10], [9, 43]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [10, 33], [10, 53]]]], "sorted"], [], ["loc", [null, [10, 28], [10, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [10, 70], [10, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [10, 65], [10, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [12, 10], [12, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [13, 33], [13, 51]]]], "sorted"], [], ["loc", [null, [13, 28], [13, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [13, 68], [13, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [13, 63], [13, 131]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [15, 10], [15, 33]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [16, 33], [16, 44]]]], "sorted"], [], ["loc", [null, [16, 28], [16, 55]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [16, 61], [16, 74]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [16, 56], [16, 124]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [18, 10], [18, 38]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [19, 33], [19, 49]]]], "sorted"], [], ["loc", [null, [19, 28], [19, 60]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [19, 66], [19, 79]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [19, 61], [19, 129]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [24, 12], [24, 25]]]]], [], 0, null, ["loc", [null, [24, 4], [37, 13]]]]],
       locals: [],
       templates: [child0]
     };
@@ -902,7 +991,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+45dbb596"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+0efea259"});
 }
 
 /* jshint ignore:end */

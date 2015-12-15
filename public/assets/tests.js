@@ -120,6 +120,15 @@ define('jobber-client/tests/helpers/start-app.jshint', ['exports'], function (ex
     assert.ok(true, 'helpers/start-app.js should pass jshint.');
   });
 });
+define('jobber-client/tests/helpers/truncate.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - helpers');
+  QUnit.test('helpers/truncate.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/truncate.js should pass jshint.');
+  });
+});
 define('jobber-client/tests/integration/components/jobs-table-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('dynamic-table', 'Integration | Component | dynamic table', {

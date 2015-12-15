@@ -29,6 +29,10 @@ export default Ember.Component.extend({
     return this.get('sortProp') === 'title';
   }).property("sortProp"),
 
+  sortedOnWorkingTitle: (function() {
+    return this.get('sortProp') === 'working_title';
+  }).property("sortProp"),
+
   sortedOnDepartment: (function() {
     return this.get('sortProp') === 'department';
   }).property("sortProp"),
