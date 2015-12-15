@@ -121,7 +121,9 @@ function addSalariesToJob(job) {
   var numbers = job.salary.replace(/[^\d.-]/g, '');
   var parts = numbers.split('-');
 
-  job.salary_low = parseFloat(parts[0]);
+  if (numbers.length > 0) {
+    job.salary_low = parseFloat(parts[0]);
+  }
   if (parts.length > 1) {
     job.salary_high = parseFloat(parts[1]);
   }
