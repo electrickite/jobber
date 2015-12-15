@@ -809,7 +809,7 @@ define("jobber-client/templates/salary", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 22,
+            "line": 52,
             "column": 0
           }
         },
@@ -860,7 +860,7 @@ define("jobber-client/templates/salary", ["exports"], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("script");
         dom.setAttribute(el1, "type", "text/javascript");
-        var el2 = dom.createTextNode("\n  $(document).ready(function() {\n    $(document).ready(function() {\n      $('#view_selection a').click(function() {\n        var view_type = $(this).attr('id');\n        $('#view_selection a').removeClass('active');\n        $(this).toggleClass('active');\n        toggle_view(view_type);\n        return false;\n      });\n    });\n  });\n");
+        var el2 = dom.createTextNode("\n  var root = this;\n\n  $(function() {\n    var chart, render_vis;\n    chart = null;\n    render_vis = function(data) {\n      chart = new BubbleChart(data);\n      chart.start();\n      return root.display_all();\n    };\n    root.display_all = (function(_this) {\n      return function() {\n        return chart.display_group_all();\n      };\n    })(this);\n    root.display_year = (function(_this) {\n      return function() {\n        return chart.display_by_year();\n      };\n    })(this);\n    root.toggle_view = (function(_this) {\n      return function(view_type) {\n        if (view_type === 'year') {\n          return root.display_year();\n        } else {\n          return root.display_all();\n        }\n      };\n    })(this);\n    return d3.json(\"api/jobs\", render_vis);\n  });\n\n  $(document).ready(function() {\n    $('#view_selection a').click(function() {\n      var view_type = $(this).attr('id');\n      $('#view_selection a').removeClass('active');\n      $(this).toggleClass('active');\n      toggle_view(view_type);\n      return false;\n    });\n  });\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -902,7 +902,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+f4e9ff44"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+fa5afa64"});
 }
 
 /* jshint ignore:end */

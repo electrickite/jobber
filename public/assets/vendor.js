@@ -90585,33 +90585,7 @@ define("ember/load-initializers",
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   $(function() {
-    var chart, render_vis;
-    chart = null;
-    render_vis = function(data) {
-      chart = new BubbleChart(data);
-      chart.start();
-      return root.display_all();
-    };
-    root.display_all = (function(_this) {
-      return function() {
-        return chart.display_group_all();
-      };
-    })(this);
-    root.display_year = (function(_this) {
-      return function() {
-        return chart.display_by_year();
-      };
-    })(this);
-    root.toggle_view = (function(_this) {
-      return function(view_type) {
-        if (view_type === 'year') {
-          return root.display_year();
-        } else {
-          return root.display_all();
-        }
-      };
-    })(this);
-    return d3.json("api/jobs", render_vis);
+    root.BubbleChart = BubbleChart;
   });
 
 
