@@ -3,6 +3,10 @@ var express = require('express'),
     server = require('http').Server(app),
     fetch = require('./services/fetch');
 
+// Set a default environment
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+app.set('port', (process.env.PORT || 3000));
+
 app.use(express.static('public'));
 
 
@@ -56,6 +60,6 @@ app.use(function(err, req, res, next) {
 
 
 // Create server
-server.listen(3000, function() {
-  console.log('Listening on port:', 3000);
+server.listen(app.get('port'), function() {
+  console.log('Listening on port:', app.get('port'));
 });
