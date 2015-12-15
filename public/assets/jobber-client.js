@@ -170,7 +170,7 @@ define('jobber-client/router', ['exports', 'ember', 'jobber-client/config/enviro
 
   Router.map(function () {
     this.route('job', { path: '/job/:job_id' });
-    this.route('charts');
+    this.route('salary');
   });
 
   exports['default'] = Router;
@@ -191,64 +191,90 @@ define('jobber-client/routes/job', ['exports', 'ember'], function (exports, _emb
 });
 define("jobber-client/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    return {
-      meta: {
-        "fragmentReason": {
-          "name": "triple-curlies"
-        },
-        "revision": "Ember@2.2.0",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
+    var child0 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 17,
+              "column": 8
+            },
+            "end": {
+              "line": 19,
+              "column": 8
+            }
           },
-          "end": {
-            "line": 5,
-            "column": 0
-          }
+          "moduleName": "jobber-client/templates/application.hbs"
         },
-        "moduleName": "jobber-client/templates/application.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "container");
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("h1");
-        dom.setAttribute(el2, "id", "title");
-        var el3 = dom.createTextNode("Jobber");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 3, 3);
-        return morphs;
-      },
-      statements: [["content", "outlet", ["loc", [null, [3, 2], [3, 12]]]]],
-      locals: [],
-      templates: []
-    };
-  })());
-});
-define("jobber-client/templates/charts", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "link-to", ["Job List", "index"], [], ["loc", [null, [18, 10], [18, 40]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 20,
+              "column": 8
+            },
+            "end": {
+              "line": 22,
+              "column": 8
+            }
+          },
+          "moduleName": "jobber-client/templates/application.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "link-to", ["By Salary", "salary"], [], ["loc", [null, [21, 10], [21, 42]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "fragmentReason": {
@@ -263,11 +289,11 @@ define("jobber-client/templates/charts", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 22,
+            "line": 31,
             "column": 0
           }
         },
-        "moduleName": "jobber-client/templates/charts.hbs"
+        "moduleName": "jobber-client/templates/application.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -275,58 +301,123 @@ define("jobber-client/templates/charts", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h2");
-        var el2 = dom.createTextNode("Charts");
+        var el1 = dom.createElement("nav");
+        dom.setAttribute(el1, "class", "navbar navbar-default");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "container");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" Brand and toggle get grouped for better mobile display ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "navbar-header");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("button");
+        dom.setAttribute(el4, "type", "button");
+        dom.setAttribute(el4, "class", "navbar-toggle collapsed");
+        dom.setAttribute(el4, "data-toggle", "collapse");
+        dom.setAttribute(el4, "data-target", "#navbar-collapse-1");
+        dom.setAttribute(el4, "aria-expanded", "false");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5, "class", "sr-only");
+        var el6 = dom.createTextNode("Toggle navigation");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5, "class", "icon-bar");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5, "class", "icon-bar");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5, "class", "icon-bar");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" Collect the nav links, forms, and other content for toggling ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "collapse navbar-collapse");
+        dom.setAttribute(el3, "id", "navbar-collapse-1");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("ul");
+        dom.setAttribute(el4, "class", "nav navbar-nav");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" /.navbar-collapse ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment(" /.container-fluid ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "id", "view_selection");
-        dom.setAttribute(el1, "class", "btn-group");
+        dom.setAttribute(el1, "class", "container");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2, "href", "#");
-        dom.setAttribute(el2, "id", "all");
-        dom.setAttribute(el2, "class", "btn active");
-        var el3 = dom.createTextNode("All jobs");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2, "href", "#");
-        dom.setAttribute(el2, "id", "year");
-        dom.setAttribute(el2, "class", "btn");
-        var el3 = dom.createTextNode("Jobs by category");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "id", "vis");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("script");
-        dom.setAttribute(el1, "type", "text/javascript");
-        var el2 = dom.createTextNode("\n  $(document).ready(function() {\n    $(document).ready(function() {\n      $('#view_selection a').click(function() {\n        var view_type = $(this).attr('id');\n        $('#view_selection a').removeClass('active');\n        $(this).toggleClass('active');\n        toggle_view(view_type);\n        return false;\n      });\n    });\n  });\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes() {
-        return [];
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0, 1]);
+        var element1 = dom.childAt(element0, [7, 1]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
+        morphs[1] = dom.createMorphAt(element1, 1, 1);
+        morphs[2] = dom.createMorphAt(element1, 2, 2);
+        morphs[3] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
+        return morphs;
       },
-      statements: [],
+      statements: [["inline", "link-to", ["Ohio State Jobs", "index"], ["class", "navbar-brand"], ["loc", [null, [11, 6], [11, 64]]]], ["block", "link-to", ["index"], ["tagName", "li"], 0, null, ["loc", [null, [17, 8], [19, 20]]]], ["block", "link-to", ["salary"], ["tagName", "li"], 1, null, ["loc", [null, [20, 8], [22, 20]]]], ["content", "outlet", ["loc", [null, [29, 2], [29, 12]]]]],
       locals: [],
-      templates: []
+      templates: [child0, child1]
     };
   })());
 });
@@ -564,7 +655,7 @@ define("jobber-client/templates/index", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h2");
+        var el1 = dom.createElement("h1");
         var el2 = dom.createTextNode("All Jobs");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -615,7 +706,7 @@ define("jobber-client/templates/job", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h2");
+        var el1 = dom.createElement("h1");
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -702,6 +793,89 @@ define("jobber-client/templates/loading", ["exports"], function (exports) {
     };
   })());
 });
+define("jobber-client/templates/salary", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 22,
+            "column": 0
+          }
+        },
+        "moduleName": "jobber-client/templates/salary.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("Jobs by salary");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "view_selection");
+        dom.setAttribute(el1, "class", "btn-group");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2, "href", "#");
+        dom.setAttribute(el2, "id", "all");
+        dom.setAttribute(el2, "class", "btn active");
+        var el3 = dom.createTextNode("All jobs");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2, "href", "#");
+        dom.setAttribute(el2, "id", "year");
+        dom.setAttribute(el2, "class", "btn");
+        var el3 = dom.createTextNode("Jobs by category");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "vis");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("script");
+        dom.setAttribute(el1, "type", "text/javascript");
+        var el2 = dom.createTextNode("\n  $(document).ready(function() {\n    $(document).ready(function() {\n      $('#view_selection a').click(function() {\n        var view_type = $(this).attr('id');\n        $('#view_selection a').removeClass('active');\n        $(this).toggleClass('active');\n        toggle_view(view_type);\n        return false;\n      });\n    });\n  });\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 /* jshint ignore:start */
 
 /* jshint ignore:end */
@@ -728,7 +902,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+3bcdc556"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+f4e9ff44"});
 }
 
 /* jshint ignore:end */
