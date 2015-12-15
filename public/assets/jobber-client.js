@@ -1936,7 +1936,7 @@ define("jobber-client/templates/salary", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 52,
+            "line": 54,
             "column": 0
           }
         },
@@ -1977,6 +1977,18 @@ define("jobber-client/templates/salary", ["exports"], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("p");
+        dom.setAttribute(el1, "class", "lead text-center loading");
+        var el2 = dom.createTextNode("Loading job data");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "spinner loading");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -2029,7 +2041,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+88e0f0df"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+b0e50202"});
 }
 
 /* jshint ignore:end */

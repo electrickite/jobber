@@ -92822,6 +92822,7 @@ if (typeof jQuery === 'undefined') {
 
     BubbleChart.prototype.create_vis = function() {
       var that;
+      $('.loading').remove();
       this.vis = d3.select("#vis").append("svg").attr('viewBox', '0 0 '+this.width+' '+this.height)
         .attr("id", "svg_vis").attr('preserveAspectRatio', "xMidYMid");
       this.circles = this.vis.selectAll("circle").data(this.nodes, function(d) {
