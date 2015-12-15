@@ -107,7 +107,8 @@
 
     BubbleChart.prototype.create_vis = function() {
       var that;
-      this.vis = d3.select("#vis").append("svg").attr("width", this.width).attr("height", this.height).attr("id", "svg_vis");
+      this.vis = d3.select("#vis").append("svg").attr('viewBox', '0 0 '+this.width+' '+this.height)
+        .attr("id", "svg_vis").attr('preserveAspectRatio', "xMidYMid");
       this.circles = this.vis.selectAll("circle").data(this.nodes, function(d) {
         return d.id;
       });
