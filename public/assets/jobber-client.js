@@ -2020,7 +2020,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+df53a4bc"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+3382af4d"});
 }
 
 /* jshint ignore:end */

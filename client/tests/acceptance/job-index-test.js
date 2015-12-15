@@ -20,25 +20,25 @@ test('sorting job list', function(assert) {
   click('#all-jobs thead tr th:first');
 
   andThen(function() {
-    assert.equal(find('#all-jobs tbody tr:first td:first').text(), 'Academic Advisor', "title sorts ascending correctly");
+    assert.equal(find('#all-jobs tbody tr:first td:nth-child(1)').text(), 'Academic Advisor', "working title sorts ascending correctly");
   });
 
   click('#all-jobs thead tr th:first');
 
   andThen(function() {
-    assert.equal(find('#all-jobs tbody tr:first td:first').text(), 'Vehicle Operator 2', "title sorts descending correctly");
+    assert.equal(find('#all-jobs tbody tr:first td:nth-child(1)').text(), 'Water Quality Lab Research Aid', "working title sorts descending correctly");
   });
 
   click('#all-jobs thead tr th:nth-child(2)');
 
   andThen(function() {
-    assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Academic Advisor', "working title sorts ascending correctly");
+    assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Academic Advisor', "title sorts ascending correctly");
   });
 
   click('#all-jobs thead tr th:nth-child(2)');
 
   andThen(function() {
-    assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Water Quality Lab Research Aid', "working title sorts descending correctly");
+    assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Vehicle Operator 2', "title sorts descending correctly");
   });
 
   click('#all-jobs thead tr th:nth-child(3)');

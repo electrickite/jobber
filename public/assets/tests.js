@@ -18,25 +18,25 @@ define('jobber-client/tests/acceptance/job-index-test', ['exports', 'qunit', 'jo
     click('#all-jobs thead tr th:first');
 
     andThen(function () {
-      assert.equal(find('#all-jobs tbody tr:first td:first').text(), 'Academic Advisor', "title sorts ascending correctly");
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(1)').text(), 'Academic Advisor', "working title sorts ascending correctly");
     });
 
     click('#all-jobs thead tr th:first');
 
     andThen(function () {
-      assert.equal(find('#all-jobs tbody tr:first td:first').text(), 'Vehicle Operator 2', "title sorts descending correctly");
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(1)').text(), 'Water Quality Lab Research Aid', "working title sorts descending correctly");
     });
 
     click('#all-jobs thead tr th:nth-child(2)');
 
     andThen(function () {
-      assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Academic Advisor', "working title sorts ascending correctly");
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Academic Advisor', "title sorts ascending correctly");
     });
 
     click('#all-jobs thead tr th:nth-child(2)');
 
     andThen(function () {
-      assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Water Quality Lab Research Aid', "working title sorts descending correctly");
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Vehicle Operator 2', "title sorts descending correctly");
     });
 
     click('#all-jobs thead tr th:nth-child(3)');
@@ -141,18 +141,18 @@ define('jobber-client/tests/acceptance/job-show-test', ['exports', 'qunit', 'job
     andThen(function () {
       assert.equal(currentPath(), 'job', "showing the job posting page");
       assert.equal(currentURL(), '/job/67237', "URL is correct");
-      assert.equal(find('h1').text(), 'Secretary - OMFS Office Associate', "job page is rendered");
+      assert.equal(find('h1').text().replace(/\s/g, ''), 'Secretary-OMFSOfficeAssociate', "job page is rendered");
     });
   });
 
   (0, _qunit.test)('linking to job page from job index', function (assert) {
     visit('/');
     fillIn('#text-filter', 'OMFS');
-    click('#all-jobs tbody tr:first td:first');
+    click('#all-jobs tbody tr:first td:first a');
 
     andThen(function () {
       assert.equal(currentPath(), 'job', "showing the job posting page");
-      assert.equal(find('h1').text(), 'Secretary - OMFS Office Associate', "job page is rendered after link");
+      assert.equal(find('h1').text().replace(/\s/g, ''), 'Secretary-OMFSOfficeAssociate', "job page is rendered after link");
     });
   });
 });
@@ -204,7 +204,7 @@ define('jobber-client/tests/acceptance/navigation-test.jshint', ['exports'], fun
     assert.ok(true, 'acceptance/navigation-test.js should pass jshint.');
   });
 });
-define('jobber-client/tests/acceptance/salary-vis-test', ['exports', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
+define('jobber-client/tests/acceptance/salary-vis-test', ['exports', 'ember', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _ember, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
 
   (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | job index');
 
@@ -216,7 +216,7 @@ define('jobber-client/tests/acceptance/salary-vis-test', ['exports', 'qunit', 'j
       assert.equal(currentPath(), 'salary', "showing the salary page");
       assert.equal(currentURL(), '/salary', "URL is correct");
 
-      Ember.run.later(function () {
+      _ember['default'].run.later(function () {
         assert.equal(find('#vis svg').length, 1, "visualization has rendered");
         promise.resolve();
       }, 1000);
@@ -228,7 +228,7 @@ define('jobber-client/tests/acceptance/salary-vis-test', ['exports', 'qunit', 'j
     visit('/salary');
 
     andThen(function () {
-      Ember.run.later(function () {
+      _ember['default'].run.later(function () {
         assert.equal(find('#vis svg circle').length, 138, "visualization has correct number of nodes");
         promise.resolve();
       }, 1000);
@@ -241,7 +241,7 @@ define('jobber-client/tests/acceptance/salary-vis-test.jshint', ['exports'], fun
   QUnit.module('JSHint - acceptance');
   QUnit.test('acceptance/salary-vis-test.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'acceptance/salary-vis-test.js should pass jshint.\nacceptance/salary-vis-test.js: line 14, col 5, \'Ember\' is not defined.\nacceptance/salary-vis-test.js: line 26, col 5, \'Ember\' is not defined.\n\n2 errors');
+    assert.ok(true, 'acceptance/salary-vis-test.js should pass jshint.');
   });
 });
 define('jobber-client/tests/adapters/application.jshint', ['exports'], function (exports) {

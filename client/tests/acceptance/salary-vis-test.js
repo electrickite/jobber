@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from 'jobber-client/tests/helpers/module-for-acceptance';
 
