@@ -5,24 +5,54 @@ export default Ember.Component.extend({
   sortAscending: true,
   sortDef: [],
   filterText: '',
-  filterFields: Ember.A(['title', 'department', 'location', 'end']),
+  filterFields: Ember.A(['title', 'working_title', 'department', 'location', 'end']),
 
   filteredContent: Ember.computed.filter('content', function(job) {
-    var match = false,
+    var matches = 0,
+        numFilters = 1,
         filter = this.get('filterText');
 
-    this.get('filterFields').forEach(function(field) {
+    this.get('filterFields').some(function(field) {
       var value = job.get(field);
 
-      if (value && value.toString().slice(0, filter.length) === filter) {
-        match = true;
+      if (value && value.toString().toLowerCase().indexOf(filter.toLowerCase()) > -1) {
+        matches++;
+        return true;
       }
     });
 
-    return match;
-  }).property('content', 'filterText'),
+    if (this.get('filterTitle')) {
+      numFilters++;
+      if (this.get('filterTitle') === job.get('title')) {matches++;}
+    }
+
+    if (this.get('filterDepartment')) {
+      numFilters++;
+      if (this.get('filterDepartment') === job.get('department')) {matches++;}
+    }
+
+    if (this.get('filterLocation')) {
+      numFilters++;
+      if (this.get('filterLocation') === job.get('location')) {matches++;}
+    }
+
+    return matches === numFilters;
+  }).property('content', 'filterText', 'filterTitle', 'filterDepartment', 'filterLocation'),
 
   sortedContent: Ember.computed.sort('filteredContent', 'sortDef'),
+
+  filterTitle: null,
+  titles: Ember.computed.mapBy('content', 'title'),
+  uniqueTitles: Ember.computed.uniq('titles'),
+
+  filterDepartment: null,
+  departments: Ember.computed.mapBy('content', 'department'),
+  uniqueDepartments: Ember.computed.uniq('departments'),
+
+  filterLocation: null,
+  locations: Ember.computed.mapBy('content', 'location'),
+  uniqueLocations: Ember.computed.uniq('locations'),
+
 
   // Template helpers
   sortedOnTitle: (function() {
@@ -57,6 +87,18 @@ export default Ember.Component.extend({
 
       var direction = this.get('sortAscending') ? 'asc' : 'desc';
       this.set('sortDef', [prop + ':' + direction]);
+    },
+
+    selectTitle(title) {
+      this.set('filterTitle', title);
+    },
+
+    selectDepartment(department) {
+      this.set('filterDepartment', department);
+    },
+
+    selectLocation(location) {
+      this.set('filterLocation', location);
     }
   }
 });

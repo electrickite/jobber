@@ -70,6 +70,7 @@ function fetchJob(id) {
 
     job.id = getIdFromUrl(res.request.uri.href);
     job.link = res.request.uri.href;
+    job.apply_link = job.link + '/pre_apply';
     job.top_message = getRowValue($table, 'Top Message');
     job.applicant_message = getRowValue($table, 'Message to Applicants');
     job.positions = parseInt(getRowValue($table, 'Number of Positions Available'));

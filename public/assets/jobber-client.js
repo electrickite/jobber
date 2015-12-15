@@ -40,24 +40,59 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
     sortAscending: true,
     sortDef: [],
     filterText: '',
-    filterFields: _ember['default'].A(['title', 'department', 'location', 'end']),
+    filterFields: _ember['default'].A(['title', 'working_title', 'department', 'location', 'end']),
 
     filteredContent: _ember['default'].computed.filter('content', function (job) {
-      var match = false,
+      var matches = 0,
+          numFilters = 1,
           filter = this.get('filterText');
 
-      this.get('filterFields').forEach(function (field) {
+      this.get('filterFields').some(function (field) {
         var value = job.get(field);
 
-        if (value && value.toString().slice(0, filter.length) === filter) {
-          match = true;
+        if (value && value.toString().toLowerCase().indexOf(filter.toLowerCase()) > -1) {
+          matches++;
+          return true;
         }
       });
 
-      return match;
-    }).property('content', 'filterText'),
+      if (this.get('filterTitle')) {
+        numFilters++;
+        if (this.get('filterTitle') === job.get('title')) {
+          matches++;
+        }
+      }
+
+      if (this.get('filterDepartment')) {
+        numFilters++;
+        if (this.get('filterDepartment') === job.get('department')) {
+          matches++;
+        }
+      }
+
+      if (this.get('filterLocation')) {
+        numFilters++;
+        if (this.get('filterLocation') === job.get('location')) {
+          matches++;
+        }
+      }
+
+      return matches === numFilters;
+    }).property('content', 'filterText', 'filterTitle', 'filterDepartment', 'filterLocation'),
 
     sortedContent: _ember['default'].computed.sort('filteredContent', 'sortDef'),
+
+    filterTitle: null,
+    titles: _ember['default'].computed.mapBy('content', 'title'),
+    uniqueTitles: _ember['default'].computed.uniq('titles'),
+
+    filterDepartment: null,
+    departments: _ember['default'].computed.mapBy('content', 'department'),
+    uniqueDepartments: _ember['default'].computed.uniq('departments'),
+
+    filterLocation: null,
+    locations: _ember['default'].computed.mapBy('content', 'location'),
+    uniqueLocations: _ember['default'].computed.uniq('locations'),
 
     // Template helpers
     sortedOnTitle: (function () {
@@ -91,6 +126,18 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
 
         var direction = this.get('sortAscending') ? 'asc' : 'desc';
         this.set('sortDef', [prop + ':' + direction]);
+      },
+
+      selectTitle: function selectTitle(title) {
+        this.set('filterTitle', title);
+      },
+
+      selectDepartment: function selectDepartment(department) {
+        this.set('filterDepartment', department);
+      },
+
+      selectLocation: function selectLocation(location) {
+        this.set('filterLocation', location);
       }
     }
   });
@@ -100,6 +147,90 @@ define('jobber-client/controllers/array', ['exports', 'ember'], function (export
 });
 define('jobber-client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
+});
+define('jobber-client/helpers/and', ['exports', 'ember', 'ember-truth-helpers/helpers/and'], function (exports, _ember, _emberTruthHelpersHelpersAnd) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersAnd.andHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersAnd.andHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/eq', ['exports', 'ember', 'ember-truth-helpers/helpers/equal'], function (exports, _ember, _emberTruthHelpersHelpersEqual) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersEqual.equalHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersEqual.equalHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/gt', ['exports', 'ember', 'ember-truth-helpers/helpers/gt'], function (exports, _ember, _emberTruthHelpersHelpersGt) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersGt.gtHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersGt.gtHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/gte', ['exports', 'ember', 'ember-truth-helpers/helpers/gte'], function (exports, _ember, _emberTruthHelpersHelpersGte) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersGte.gteHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersGte.gteHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/is-array', ['exports', 'ember', 'ember-truth-helpers/helpers/is-array'], function (exports, _ember, _emberTruthHelpersHelpersIsArray) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersIsArray.isArrayHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersIsArray.isArrayHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/lt', ['exports', 'ember', 'ember-truth-helpers/helpers/lt'], function (exports, _ember, _emberTruthHelpersHelpersLt) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersLt.ltHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersLt.ltHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/lte', ['exports', 'ember', 'ember-truth-helpers/helpers/lte'], function (exports, _ember, _emberTruthHelpersHelpersLte) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersLte.lteHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersLte.lteHelper);
+  }
+
+  exports['default'] = forExport;
 });
 define('jobber-client/helpers/moment-duration', ['exports', 'ember-moment/helpers/moment-duration'], function (exports, _emberMomentHelpersMomentDuration) {
   Object.defineProperty(exports, 'default', {
@@ -124,6 +255,42 @@ define('jobber-client/helpers/moment-to-now', ['exports', 'ember', 'jobber-clien
     globalAllowEmpty: !!_ember['default'].get(_jobberClientConfigEnvironment['default'], 'moment.allowEmpty')
   });
 });
+define('jobber-client/helpers/not-eq', ['exports', 'ember', 'ember-truth-helpers/helpers/not-equal'], function (exports, _ember, _emberTruthHelpersHelpersNotEqual) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersNotEqual.notEqualHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersNotEqual.notEqualHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/not', ['exports', 'ember', 'ember-truth-helpers/helpers/not'], function (exports, _ember, _emberTruthHelpersHelpersNot) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersNot.notHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersNot.notHelper);
+  }
+
+  exports['default'] = forExport;
+});
+define('jobber-client/helpers/or', ['exports', 'ember', 'ember-truth-helpers/helpers/or'], function (exports, _ember, _emberTruthHelpersHelpersOr) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersOr.orHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersOr.orHelper);
+  }
+
+  exports['default'] = forExport;
+});
 define("jobber-client/helpers/truncate", ["exports", "ember"], function (exports, _ember) {
   exports["default"] = _ember["default"].Helper.extend({
     compute: function compute(params, hash) {
@@ -136,6 +303,18 @@ define("jobber-client/helpers/truncate", ["exports", "ember"], function (exports
       return text;
     }
   });
+});
+define('jobber-client/helpers/xor', ['exports', 'ember', 'ember-truth-helpers/helpers/xor'], function (exports, _ember, _emberTruthHelpersHelpersXor) {
+
+  var forExport = null;
+
+  if (_ember['default'].Helper) {
+    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersXor.xorHelper);
+  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
+    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersXor.xorHelper);
+  }
+
+  exports['default'] = forExport;
 });
 define('jobber-client/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'jobber-client/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _jobberClientConfigEnvironment) {
   exports['default'] = {
@@ -177,9 +356,38 @@ define('jobber-client/initializers/export-application-global', ['exports', 'embe
     initialize: initialize
   };
 });
+define('jobber-client/initializers/truth-helpers', ['exports', 'ember', 'ember-truth-helpers/utils/register-helper', 'ember-truth-helpers/helpers/and', 'ember-truth-helpers/helpers/or', 'ember-truth-helpers/helpers/equal', 'ember-truth-helpers/helpers/not', 'ember-truth-helpers/helpers/is-array', 'ember-truth-helpers/helpers/not-equal', 'ember-truth-helpers/helpers/gt', 'ember-truth-helpers/helpers/gte', 'ember-truth-helpers/helpers/lt', 'ember-truth-helpers/helpers/lte'], function (exports, _ember, _emberTruthHelpersUtilsRegisterHelper, _emberTruthHelpersHelpersAnd, _emberTruthHelpersHelpersOr, _emberTruthHelpersHelpersEqual, _emberTruthHelpersHelpersNot, _emberTruthHelpersHelpersIsArray, _emberTruthHelpersHelpersNotEqual, _emberTruthHelpersHelpersGt, _emberTruthHelpersHelpersGte, _emberTruthHelpersHelpersLt, _emberTruthHelpersHelpersLte) {
+  exports.initialize = initialize;
+
+  function initialize() /* container, application */{
+
+    // Do not register helpers from Ember 1.13 onwards, starting from 1.13 they
+    // will be auto-discovered.
+    if (_ember['default'].Helper) {
+      return;
+    }
+
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('and', _emberTruthHelpersHelpersAnd.andHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('or', _emberTruthHelpersHelpersOr.orHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('eq', _emberTruthHelpersHelpersEqual.equalHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('not', _emberTruthHelpersHelpersNot.notHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('is-array', _emberTruthHelpersHelpersIsArray.isArrayHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('not-eq', _emberTruthHelpersHelpersNotEqual.notEqualHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('gt', _emberTruthHelpersHelpersGt.gtHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('gte', _emberTruthHelpersHelpersGte.gteHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('lt', _emberTruthHelpersHelpersLt.ltHelper);
+    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('lte', _emberTruthHelpersHelpersLte.lteHelper);
+  }
+
+  exports['default'] = {
+    name: 'truth-helpers',
+    initialize: initialize
+  };
+});
 define('jobber-client/models/job', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     link: _emberData['default'].attr('string'),
+    apply_link: _emberData['default'].attr('string'),
     top_message: _emberData['default'].attr('string'),
     applicant_message: _emberData['default'].attr('string'),
     positions: _emberData['default'].attr('number'),
@@ -481,12 +689,12 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 24,
-              "column": 4
+              "line": 21,
+              "column": 14
             },
             "end": {
-              "line": 37,
-              "column": 4
+              "line": 23,
+              "column": 14
             }
           },
           "moduleName": "jobber-client/templates/components/jobs-table.hbs"
@@ -497,57 +705,210 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
+          var el1 = dom.createTextNode("                ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("option");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element5 = dom.childAt(fragment, [1]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createAttrMorph(element5, 'value');
+          morphs[1] = dom.createAttrMorph(element5, 'selected');
+          morphs[2] = dom.createMorphAt(element5, 0, 0);
+          return morphs;
+        },
+        statements: [["attribute", "value", ["get", "titleChoice", ["loc", [null, [22, 32], [22, 43]]]]], ["attribute", "selected", ["subexpr", "eq", [["get", "filterTitle", ["loc", [null, [22, 60], [22, 71]]]], ["get", "titleChoice", ["loc", [null, [22, 72], [22, 83]]]]], [], ["loc", [null, [22, 55], [22, 85]]]]], ["content", "titleChoice", ["loc", [null, [22, 86], [22, 101]]]]],
+        locals: ["titleChoice"],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 30,
+              "column": 14
+            },
+            "end": {
+              "line": 32,
+              "column": 14
+            }
+          },
+          "moduleName": "jobber-client/templates/components/jobs-table.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("                ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("option");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element4 = dom.childAt(fragment, [1]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createAttrMorph(element4, 'value');
+          morphs[1] = dom.createAttrMorph(element4, 'selected');
+          morphs[2] = dom.createMorphAt(element4, 0, 0);
+          return morphs;
+        },
+        statements: [["attribute", "value", ["get", "deptartmentChoice", ["loc", [null, [31, 32], [31, 49]]]]], ["attribute", "selected", ["subexpr", "eq", [["get", "filterDepartment", ["loc", [null, [31, 66], [31, 82]]]], ["get", "deptartmentChoice", ["loc", [null, [31, 83], [31, 100]]]]], [], ["loc", [null, [31, 61], [31, 102]]]]], ["content", "deptartmentChoice", ["loc", [null, [31, 103], [31, 124]]]]],
+        locals: ["deptartmentChoice"],
+        templates: []
+      };
+    })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 39,
+              "column": 14
+            },
+            "end": {
+              "line": 41,
+              "column": 14
+            }
+          },
+          "moduleName": "jobber-client/templates/components/jobs-table.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("                ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("option");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element3 = dom.childAt(fragment, [1]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createAttrMorph(element3, 'value');
+          morphs[1] = dom.createAttrMorph(element3, 'selected');
+          morphs[2] = dom.createMorphAt(element3, 0, 0);
+          return morphs;
+        },
+        statements: [["attribute", "value", ["get", "locationChoice", ["loc", [null, [40, 32], [40, 46]]]]], ["attribute", "selected", ["subexpr", "eq", [["get", "filterLocation", ["loc", [null, [40, 63], [40, 77]]]], ["get", "locationChoice", ["loc", [null, [40, 78], [40, 92]]]]], [], ["loc", [null, [40, 58], [40, 94]]]]], ["content", "locationChoice", ["loc", [null, [40, 95], [40, 113]]]]],
+        locals: ["locationChoice"],
+        templates: []
+      };
+    })();
+    var child3 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 74,
+              "column": 6
+            },
+            "end": {
+              "line": 88,
+              "column": 6
+            }
+          },
+          "moduleName": "jobber-client/templates/components/jobs-table.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" | ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("a");
+          var el4 = dom.createTextNode("Apply");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n      ");
+          var el1 = dom.createTextNode("\n        ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
-          dom.setAttribute(el2, "colspan", "5");
+          dom.setAttribute(el2, "colspan", "6");
+          var el3 = dom.createTextNode("\n            ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n        ");
-          dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -556,17 +917,66 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1]);
-          var morphs = new Array(6);
+          var element1 = dom.childAt(element0, [11]);
+          var element2 = dom.childAt(element1, [2]);
+          var morphs = new Array(8);
           morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
           morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 0, 0);
           morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 0, 0);
           morphs[4] = dom.createMorphAt(dom.childAt(element0, [9]), 0, 0);
-          morphs[5] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
+          morphs[5] = dom.createMorphAt(element1, 0, 0);
+          morphs[6] = dom.createAttrMorph(element2, 'href');
+          morphs[7] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [26, 22], [26, 31]]]], "job", ["get", "job", ["loc", [null, [26, 38], [26, 41]]]]], [], ["loc", [null, [26, 12], [26, 43]]]], ["content", "job.working_title", ["loc", [null, [27, 12], [27, 33]]]], ["content", "job.department", ["loc", [null, [28, 12], [28, 30]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [29, 28], [29, 35]]]], "MM/DD/YYYY"], [], ["loc", [null, [29, 12], [29, 50]]]], ["content", "job.location", ["loc", [null, [30, 12], [30, 28]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [34, 21], [34, 32]]]]], ["limit", "400"], ["loc", [null, [34, 10], [34, 46]]]]],
+        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [76, 24], [76, 33]]]], "job", ["get", "job", ["loc", [null, [76, 40], [76, 43]]]]], [], ["loc", [null, [76, 14], [76, 45]]]], ["content", "job.working_title", ["loc", [null, [77, 14], [77, 35]]]], ["content", "job.department", ["loc", [null, [78, 14], [78, 32]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [79, 30], [79, 37]]]], "MM/DD/YYYY"], [], ["loc", [null, [79, 14], [79, 52]]]], ["content", "job.location", ["loc", [null, [80, 14], [80, 30]]]], ["inline", "link-to", ["View", "job", ["get", "job", ["loc", [null, [81, 37], [81, 40]]]]], [], ["loc", [null, [81, 14], [81, 42]]]], ["attribute", "href", ["concat", [["get", "job.apply_link", ["loc", [null, [81, 66], [81, 80]]]]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [85, 23], [85, 34]]]]], ["limit", "400"], ["loc", [null, [85, 12], [85, 48]]]]],
         locals: ["job"],
+        templates: []
+      };
+    })();
+    var child4 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 88,
+              "column": 6
+            },
+            "end": {
+              "line": 90,
+              "column": 6
+            }
+          },
+          "moduleName": "jobber-client/templates/components/jobs-table.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("tr");
+          var el2 = dom.createElement("td");
+          dom.setAttribute(el2, "colspan", "6");
+          var el3 = dom.createTextNode("No jobs found");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
         templates: []
       };
     })();
@@ -574,7 +984,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
       meta: {
         "fragmentReason": {
           "name": "missing-wrapper",
-          "problems": ["wrong-type", "multiple-nodes"]
+          "problems": ["multiple-nodes"]
         },
         "revision": "Ember@2.2.0",
         "loc": {
@@ -584,7 +994,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 40,
+            "line": 94,
             "column": 0
           }
         },
@@ -596,64 +1006,181 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("table");
-        dom.setAttribute(el1, "class", "table table-striped");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "panel-group");
+        dom.setAttribute(el1, "id", "filters");
+        dom.setAttribute(el1, "role", "tablist");
+        dom.setAttribute(el1, "aria-multiselectable", "true");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("thead");
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "panel panel-default");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("tr");
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "panel-heading");
+        dom.setAttribute(el3, "role", "tab");
+        dom.setAttribute(el3, "id", "filters-heading");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Title\n        ");
+        var el4 = dom.createElement("h4");
+        dom.setAttribute(el4, "class", "panel-title");
+        var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
-        var el5 = dom.createElement("span");
+        var el5 = dom.createElement("a");
+        dom.setAttribute(el5, "role", "button");
+        dom.setAttribute(el5, "data-toggle", "collapse");
+        dom.setAttribute(el5, "data-parent", "#accordion");
+        dom.setAttribute(el5, "href", "#filterPanel");
+        dom.setAttribute(el5, "aria-expanded", "true");
+        dom.setAttribute(el5, "aria-controls", "filterPanel");
+        var el6 = dom.createTextNode("\n          Filters\n        ");
+        dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "id", "filterPanel");
+        dom.setAttribute(el3, "class", "panel-collapse collapse");
+        dom.setAttribute(el3, "role", "tabpanel");
+        dom.setAttribute(el3, "aria-labelledby", "filters-heading");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Working Title\n        ");
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "panel-body");
+        var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
-        var el5 = dom.createElement("span");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Department\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("span");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("End Date\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("span");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Location\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("span");
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "row");
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "form-group col-md-3");
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("label");
+        dom.setAttribute(el7, "class", "sr-only");
+        dom.setAttribute(el7, "for", "text-filter");
+        var el8 = dom.createTextNode("Job search filter");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createComment("");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n          ");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "form-group col-md-3");
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("label");
+        dom.setAttribute(el7, "class", "sr-only");
+        dom.setAttribute(el7, "for", "title-filter");
+        var el8 = dom.createTextNode("Job title filter");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("select");
+        dom.setAttribute(el7, "id", "title-filter");
+        dom.setAttribute(el7, "class", "form-control");
+        var el8 = dom.createTextNode("\n              ");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createElement("option");
+        dom.setAttribute(el8, "value", "");
+        var el9 = dom.createTextNode("Filter by job title");
+        dom.appendChild(el8, el9);
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("\n");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createComment("");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("            ");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n          ");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "form-group col-md-3");
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("label");
+        dom.setAttribute(el7, "class", "sr-only");
+        dom.setAttribute(el7, "for", "department-filter");
+        var el8 = dom.createTextNode("Department filter");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("select");
+        dom.setAttribute(el7, "id", "department-filter");
+        dom.setAttribute(el7, "class", "form-control");
+        var el8 = dom.createTextNode("\n              ");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createElement("option");
+        dom.setAttribute(el8, "value", "");
+        var el9 = dom.createTextNode("Filter by department");
+        dom.appendChild(el8, el9);
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("\n");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createComment("");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("            ");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n          ");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "form-group col-md-3");
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("label");
+        dom.setAttribute(el7, "class", "sr-only");
+        dom.setAttribute(el7, "for", "location-filter");
+        var el8 = dom.createTextNode("Department filter");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("select");
+        dom.setAttribute(el7, "id", "location-filter");
+        dom.setAttribute(el7, "class", "form-control");
+        var el8 = dom.createTextNode("\n              ");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createElement("option");
+        dom.setAttribute(el8, "value", "");
+        var el9 = dom.createTextNode("Filter by location");
+        dom.appendChild(el8, el9);
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("\n");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createComment("");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("            ");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n          ");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n      ");
         dom.appendChild(el4, el5);
@@ -664,14 +1191,99 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "table-responsive");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("tbody");
-        var el3 = dom.createTextNode("\n");
+        var el2 = dom.createElement("table");
+        dom.setAttribute(el2, "class", "table table-striped");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
+        var el3 = dom.createElement("thead");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("tr");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("th");
+        var el6 = dom.createTextNode("Title\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("span");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("th");
+        var el6 = dom.createTextNode("Working Title\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("span");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("th");
+        var el6 = dom.createTextNode("Department\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("span");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("th");
+        var el6 = dom.createTextNode("End Date\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("span");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("th");
+        var el6 = dom.createTextNode("Location\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("span");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("th");
+        var el6 = dom.createElement("span");
+        dom.setAttribute(el6, "class", "sr-only");
+        var el7 = dom.createTextNode("Actions");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  ");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("tbody");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -682,37 +1294,46 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [2]);
-        var element2 = dom.childAt(element1, [1, 1]);
-        var element3 = dom.childAt(element2, [1]);
-        var element4 = dom.childAt(element3, [1]);
-        var element5 = dom.childAt(element2, [3]);
-        var element6 = dom.childAt(element5, [1]);
-        var element7 = dom.childAt(element2, [5]);
-        var element8 = dom.childAt(element7, [1]);
-        var element9 = dom.childAt(element2, [7]);
-        var element10 = dom.childAt(element9, [1]);
-        var element11 = dom.childAt(element2, [9]);
+        var element6 = dom.childAt(fragment, [0, 1, 3, 1, 1]);
+        var element7 = dom.childAt(element6, [3, 3]);
+        var element8 = dom.childAt(element6, [5, 3]);
+        var element9 = dom.childAt(element6, [7, 3]);
+        var element10 = dom.childAt(fragment, [2, 1]);
+        var element11 = dom.childAt(element10, [1, 1]);
         var element12 = dom.childAt(element11, [1]);
-        var morphs = new Array(12);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        morphs[1] = dom.createElementMorph(element3);
-        morphs[2] = dom.createAttrMorph(element4, 'class');
-        morphs[3] = dom.createElementMorph(element5);
-        morphs[4] = dom.createAttrMorph(element6, 'class');
-        morphs[5] = dom.createElementMorph(element7);
-        morphs[6] = dom.createAttrMorph(element8, 'class');
-        morphs[7] = dom.createElementMorph(element9);
-        morphs[8] = dom.createAttrMorph(element10, 'class');
-        morphs[9] = dom.createElementMorph(element11);
-        morphs[10] = dom.createAttrMorph(element12, 'class');
-        morphs[11] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
-        dom.insertBoundary(fragment, 0);
+        var element13 = dom.childAt(element12, [1]);
+        var element14 = dom.childAt(element11, [3]);
+        var element15 = dom.childAt(element14, [1]);
+        var element16 = dom.childAt(element11, [5]);
+        var element17 = dom.childAt(element16, [1]);
+        var element18 = dom.childAt(element11, [7]);
+        var element19 = dom.childAt(element18, [1]);
+        var element20 = dom.childAt(element11, [9]);
+        var element21 = dom.childAt(element20, [1]);
+        var morphs = new Array(18);
+        morphs[0] = dom.createMorphAt(dom.childAt(element6, [1]), 3, 3);
+        morphs[1] = dom.createAttrMorph(element7, 'onchange');
+        morphs[2] = dom.createMorphAt(element7, 3, 3);
+        morphs[3] = dom.createAttrMorph(element8, 'onchange');
+        morphs[4] = dom.createMorphAt(element8, 3, 3);
+        morphs[5] = dom.createAttrMorph(element9, 'onchange');
+        morphs[6] = dom.createMorphAt(element9, 3, 3);
+        morphs[7] = dom.createElementMorph(element12);
+        morphs[8] = dom.createAttrMorph(element13, 'class');
+        morphs[9] = dom.createElementMorph(element14);
+        morphs[10] = dom.createAttrMorph(element15, 'class');
+        morphs[11] = dom.createElementMorph(element16);
+        morphs[12] = dom.createAttrMorph(element17, 'class');
+        morphs[13] = dom.createElementMorph(element18);
+        morphs[14] = dom.createAttrMorph(element19, 'class');
+        morphs[15] = dom.createElementMorph(element20);
+        morphs[16] = dom.createAttrMorph(element21, 'class');
+        morphs[17] = dom.createMorphAt(dom.childAt(element10, [3]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [1, 14], [1, 24]]]]], [], []], "type", "text", "placeholder", "Filter", "class", "form-control"], ["loc", [null, [1, 0], [1, 80]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [6, 10], [6, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [7, 33], [7, 46]]]], "sorted"], [], ["loc", [null, [7, 28], [7, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [7, 63], [7, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [7, 58], [7, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [9, 10], [9, 43]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [10, 33], [10, 53]]]], "sorted"], [], ["loc", [null, [10, 28], [10, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [10, 70], [10, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [10, 65], [10, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [12, 10], [12, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [13, 33], [13, 51]]]], "sorted"], [], ["loc", [null, [13, 28], [13, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [13, 68], [13, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [13, 63], [13, 131]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [15, 10], [15, 33]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [16, 33], [16, 44]]]], "sorted"], [], ["loc", [null, [16, 28], [16, 55]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [16, 61], [16, 74]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [16, 56], [16, 124]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [18, 10], [18, 38]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [19, 33], [19, 49]]]], "sorted"], [], ["loc", [null, [19, 28], [19, 60]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [19, 66], [19, 79]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [19, 61], [19, 129]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [24, 12], [24, 25]]]]], [], 0, null, ["loc", [null, [24, 4], [37, 13]]]]],
+      statements: [["inline", "input", [], ["id", "text-filter", "value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [15, 43], [15, 53]]]]], [], []], "type", "text", "placeholder", "Search", "class", "form-control"], ["loc", [null, [15, 12], [15, 109]]]], ["attribute", "onchange", ["subexpr", "action", ["selectTitle"], ["value", "target.value"], ["loc", [null, [19, 47], [19, 92]]]]], ["block", "each", [["get", "uniqueTitles", ["loc", [null, [21, 22], [21, 34]]]]], [], 0, null, ["loc", [null, [21, 14], [23, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectDepartment"], ["value", "target.value"], ["loc", [null, [28, 52], [28, 102]]]]], ["block", "each", [["get", "uniqueDepartments", ["loc", [null, [30, 22], [30, 39]]]]], [], 1, null, ["loc", [null, [30, 14], [32, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectLocation"], ["value", "target.value"], ["loc", [null, [37, 50], [37, 98]]]]], ["block", "each", [["get", "uniqueLocations", ["loc", [null, [39, 22], [39, 37]]]]], [], 2, null, ["loc", [null, [39, 14], [41, 23]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [55, 12], [55, 37]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [56, 35], [56, 48]]]], "sorted"], [], ["loc", [null, [56, 30], [56, 59]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [56, 65], [56, 78]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [56, 60], [56, 128]]]], " glyphicon"]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [58, 12], [58, 45]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [59, 35], [59, 55]]]], "sorted"], [], ["loc", [null, [59, 30], [59, 66]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [59, 72], [59, 85]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [59, 67], [59, 135]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [61, 12], [61, 42]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [62, 35], [62, 53]]]], "sorted"], [], ["loc", [null, [62, 30], [62, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [62, 70], [62, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [62, 65], [62, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [64, 12], [64, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [65, 35], [65, 46]]]], "sorted"], [], ["loc", [null, [65, 30], [65, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [65, 63], [65, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [65, 58], [65, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [67, 12], [67, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [68, 35], [68, 51]]]], "sorted"], [], ["loc", [null, [68, 30], [68, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [68, 68], [68, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [68, 63], [68, 131]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [74, 14], [74, 27]]]]], [], 3, 4, ["loc", [null, [74, 6], [90, 15]]]]],
       locals: [],
-      templates: [child0]
+      templates: [child0, child1, child2, child3, child4]
     };
   })());
 });
@@ -991,7 +1612,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+0efea259"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+224a2d1c"});
 }
 
 /* jshint ignore:end */

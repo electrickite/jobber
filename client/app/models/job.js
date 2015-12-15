@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   link: DS.attr('string'),
+  apply_link: DS.attr('string'),
   top_message: DS.attr('string'),
   applicant_message: DS.attr('string'),
   positions: DS.attr('number'),

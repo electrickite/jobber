@@ -1,39 +1,93 @@
-{{input value=filterText type="text" placeholder="Filter" class="form-control"}}
+<div class="panel-group" id="filters" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="filters-heading">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#filterPanel" aria-expanded="true" aria-controls="filterPanel">
+          Filters
+        </a>
+      </h4>
+    </div>
+    <div id="filterPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="filters-heading">
+      <div class="panel-body">
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label class="sr-only" for="text-filter">Job search filter</label>
+            {{input id="text-filter" value=filterText type="text" placeholder="Search" class="form-control"}}
+          </div>
+          <div class="form-group col-md-3">
+            <label class="sr-only" for="title-filter">Job title filter</label>
+            <select id="title-filter" onchange={{action "selectTitle" value="target.value"}} class="form-control">
+              <option value="">Filter by job title</option>
+              {{#each uniqueTitles as |titleChoice|}}
+                <option value={{titleChoice}} selected={{eq filterTitle titleChoice}}>{{titleChoice}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="sr-only" for="department-filter">Department filter</label>
+            <select id="department-filter" onchange={{action "selectDepartment" value="target.value"}} class="form-control">
+              <option value="">Filter by department</option>
+              {{#each uniqueDepartments as |deptartmentChoice|}}
+                <option value={{deptartmentChoice}} selected={{eq filterDepartment deptartmentChoice}}>{{deptartmentChoice}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="sr-only" for="location-filter">Department filter</label>
+            <select id="location-filter" onchange={{action "selectLocation" value="target.value"}} class="form-control">
+              <option value="">Filter by location</option>
+              {{#each uniqueLocations as |locationChoice|}}
+                <option value={{locationChoice}} selected={{eq filterLocation locationChoice}}>{{locationChoice}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th {{action "sort" "title"}}>Title
-        <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-      </th>
-      <th {{action "sort" "working_title"}}>Working Title
-        <span class="sorter {{if sortedOnWorkingTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-      </th>
-      <th {{action "sort" "department"}}>Department
-        <span class="sorter {{if sortedOnDepartment "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-      </th>
-      <th {{action "sort" "end"}}>End Date
-        <span class="sorter {{if sortedOnEnd "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-      </th>
-      <th {{action "sort" "location"}}>Location
-        <span class="sorter {{if sortedOnLocation "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each sortedContent as |job|}}
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td>{{link-to job.title 'job' job}}</td>
-        <td>{{job.working_title}}</td>
-        <td>{{job.department}}</td>
-        <td>{{moment-format job.end "MM/DD/YYYY"}}</td>
-        <td>{{job.location}}</td>
+        <th {{action "sort" "title"}}>Title
+          <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+        </th>
+        <th {{action "sort" "working_title"}}>Working Title
+          <span class="sorter {{if sortedOnWorkingTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+        </th>
+        <th {{action "sort" "department"}}>Department
+          <span class="sorter {{if sortedOnDepartment "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+        </th>
+        <th {{action "sort" "end"}}>End Date
+          <span class="sorter {{if sortedOnEnd "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+        </th>
+        <th {{action "sort" "location"}}>Location
+          <span class="sorter {{if sortedOnLocation "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+        </th>
+        <th><span class="sr-only">Actions</span></th>
       </tr>
-      <tr>
-        <td colspan="5">
-          {{truncate job.summary limit="400"}}
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {{#each sortedContent as |job|}}
+        <tr>
+          <td>{{link-to job.title 'job' job}}</td>
+          <td>{{job.working_title}}</td>
+          <td>{{job.department}}</td>
+          <td>{{moment-format job.end "MM/DD/YYYY"}}</td>
+          <td>{{job.location}}</td>
+          <td>{{link-to 'View' 'job' job}}&nbsp;|&nbsp;<a href="{{job.apply_link}}">Apply</a></td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            {{truncate job.summary limit="400"}}
+          </td>
+        </tr>
+      {{else}}
+        <tr><td colspan="6">No jobs found</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
