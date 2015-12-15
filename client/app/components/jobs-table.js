@@ -76,6 +76,17 @@ export default Ember.Component.extend({
   }).property("sortProp"),
 
 
+  // Trigger footbale jQuery plugin
+  didInsertElement: function() {
+    Ember.run.schedule('afterRender', this, function() {
+      this.$('.footable').footable();
+    });
+  },
+  didRender: function() {
+    this.$('.footable').trigger('footable_redraw');
+  },
+
+
   actions: {
     sort(prop) {
       if (this.get('sortProp') === prop) {

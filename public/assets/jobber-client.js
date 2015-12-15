@@ -115,6 +115,16 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
       return this.get('sortProp') === 'end';
     }).property("sortProp"),
 
+    // Trigger footbale jQuery plugin
+    didInsertElement: function didInsertElement() {
+      _ember['default'].run.schedule('afterRender', this, function () {
+        this.$('.footable').footable();
+      });
+    },
+    didRender: function didRender() {
+      this.$('.footable').trigger('footable_redraw');
+    },
+
     actions: {
       sort: function sort(prop) {
         if (this.get('sortProp') === prop) {
@@ -144,22 +154,6 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
 });
 define('jobber-client/controllers/array', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
-});
-define('jobber-client/controllers/index', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({
-    init: function init() {
-      this._super();
-      _ember['default'].run.schedule('afterRender', this, function () {
-        this.send('foo');
-      });
-    },
-
-    actions: {
-      foo: function foo() {
-        _ember['default'].$('.footable').footable();
-      }
-    }
-  });
 });
 define('jobber-client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
@@ -2035,7 +2029,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+f29ac70e"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+75a4dedd"});
 }
 
 /* jshint ignore:end */

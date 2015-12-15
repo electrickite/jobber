@@ -271,15 +271,6 @@ define('jobber-client/tests/components/jobs-table.jshint', ['exports'], function
     assert.ok(true, 'components/jobs-table.js should pass jshint.');
   });
 });
-define('jobber-client/tests/controllers/index.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - controllers');
-  QUnit.test('controllers/index.js should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'controllers/index.js should pass jshint.');
-  });
-});
 define('jobber-client/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = destroyApp;
 
