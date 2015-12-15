@@ -37,7 +37,7 @@ export default Ember.Component.extend({
     }
 
     return matches === numFilters;
-  }).property('content', 'filterText', 'filterTitle', 'filterDepartment', 'filterLocation'),
+  }).property('content.[]', 'filterText', 'filterTitle', 'filterDepartment', 'filterLocation'),
 
   sortedContent: Ember.computed.sort('filteredContent', 'sortDef'),
 

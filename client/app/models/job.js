@@ -1,4 +1,6 @@
+import Ember from 'ember';
 import DS from 'ember-data';
+const {computed} = Ember;
 
 export default DS.Model.extend({
   link: DS.attr('string'),
@@ -28,4 +30,8 @@ export default DS.Model.extend({
   end: DS.attr('date'),
   contact_name: DS.attr('string'),
   contact_phone: DS.attr('string'),
+
+  ftePercent: computed('fte', function() {
+    return this.get('fte') * 100;
+  }),
 });

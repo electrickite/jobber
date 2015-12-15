@@ -1,3 +1,53 @@
-<h1>{{model.title}}</h1>
-<p><a href="{{model.link}}">Apply</a></p>
-<p>{{link-to 'Back' 'index'}}</p>
+<h1>{{model.working_title}}
+  {{#if (not-eq model.title model.working_title)}}
+    <small>{{model.title}}</small>
+  {{/if}}
+</h1>
+<p class="lead">{{model.department}}</p>
+<div class="row">
+  <div class="col-md-8">
+    {{#if (or model.applicant_message model.additional)}}
+      <div class="alert alert-warning">
+        {{model.applicant_message}}
+        {{model.additional}}
+      </div>
+    {{/if}}
+    {{#if model.top_message}}
+      <div class="alert alert-info">{{model.top_message}}</div>
+    {{/if}}
+    <h2>Summary</h2>
+    <p>{{model.summary}}</p>
+
+    <h2>Required qualifications</h2>
+    <p>{{model.required}}</p>
+
+    <h2>Desired qualifications</h2>
+    <p>{{model.desired}}</p>
+  </div>
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Additional informations</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Location</dt><dd>{{model.location}}</dd>
+          <dt>Salary</dt><dd>{{model.salary}}</dd>
+          <dt>Category</dt><dd>{{model.category}}</dd>
+          <dt>Hours</dt><dd>{{model.time}}</dd>
+          <dt>FTE%</dt><dd>{{model.ftePercent}}</dd>
+          <dt>Appointment</dt><dd>{{model.duration}}</dd>
+          <dt>Positions</dt><dd>{{model.positions}}</dd>
+          <dt>Requisition</dt><dd>{{model.requisition}}</dd>
+          <dt>Department</dt><dd>{{model.department}}</dd>
+          <dt>Contact</dt><dd>{{model.contact_name}}</dd>
+          <dt>Phone</dt><dd>{{model.contact_phone}}</dd>
+          <dt>Posting Closes</dt><dd>{{moment-format job.end "MM/DD/YYYY"}}</dd>
+          <dt>Screening</dt><dd>{{model.screening}}</dd>
+        </dl>
+      </div>
+    </div>
+    <a href="{{model.apply_link}}" class="btn btn-block btn-lg btn-danger">Apply for this position!</a>
+  </div>
+</div>

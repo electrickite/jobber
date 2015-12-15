@@ -3,6 +3,11 @@
 .sorter.sorted {color:black;}
 
 
+/* Bootstrap overrides */
+.dl-horizontal dt {width:120px;}
+.dl-horizontal dd {margin-left:140px;}
+
+
 /* Bubblle chart */
 #vis {width:940px; height:600px; clear:both; margin-bottom:10px;}
 #view_selection {margin-top:10px;}
