@@ -1,0 +1,21 @@
+<h2>Charts</h2>
+
+<div id="view_selection" class="btn-group">
+  <a href="#" id="all" class="btn active">All jobs</a>
+  <a href="#" id="year" class="btn">Jobs by category</a>
+</div>
+<div id="vis"></div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(document).ready(function() {
+      $('#view_selection a').click(function() {
+        var view_type = $(this).attr('id');
+        $('#view_selection a').removeClass('active');
+        $(this).toggleClass('active');
+        toggle_view(view_type);
+        return false;
+      });
+    });
+  });
+</script>

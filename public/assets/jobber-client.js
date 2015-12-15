@@ -170,6 +170,7 @@ define('jobber-client/router', ['exports', 'ember', 'jobber-client/config/enviro
 
   Router.map(function () {
     this.route('job', { path: '/job/:job_id' });
+    this.route('charts');
   });
 
   exports['default'] = Router;
@@ -241,6 +242,89 @@ define("jobber-client/templates/application", ["exports"], function (exports) {
         return morphs;
       },
       statements: [["content", "outlet", ["loc", [null, [3, 2], [3, 12]]]]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("jobber-client/templates/charts", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 22,
+            "column": 0
+          }
+        },
+        "moduleName": "jobber-client/templates/charts.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h2");
+        var el2 = dom.createTextNode("Charts");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "view_selection");
+        dom.setAttribute(el1, "class", "btn-group");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2, "href", "#");
+        dom.setAttribute(el2, "id", "all");
+        dom.setAttribute(el2, "class", "btn active");
+        var el3 = dom.createTextNode("All jobs");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2, "href", "#");
+        dom.setAttribute(el2, "id", "year");
+        dom.setAttribute(el2, "class", "btn");
+        var el3 = dom.createTextNode("Jobs by category");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "vis");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("script");
+        dom.setAttribute(el1, "type", "text/javascript");
+        var el2 = dom.createTextNode("\n  $(document).ready(function() {\n    $(document).ready(function() {\n      $('#view_selection a').click(function() {\n        var view_type = $(this).attr('id');\n        $('#view_selection a').removeClass('active');\n        $(this).toggleClass('active');\n        toggle_view(view_type);\n        return false;\n      });\n    });\n  });\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
       locals: [],
       templates: []
     };
@@ -593,7 +677,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+698546aa"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+2cbb17b1"});
 }
 
 /* jshint ignore:end */

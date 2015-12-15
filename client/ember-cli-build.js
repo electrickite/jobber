@@ -40,5 +40,9 @@ module.exports = function(defaults) {
     destDir: 'fonts'
   });
 
+  app.import('bower_components/d3/d3.js');
+  app.import('vendor/bubblechart.js');
+  app.import('vendor/tooltip.js');
+
   return app.toTree();
 };
