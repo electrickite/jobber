@@ -21,7 +21,7 @@
       this.data = data.jobs;
       this.width = 940;
       this.height = 600;
-      this.tooltip = CustomTooltip("gates_tooltip", 240);
+      this.tooltip = CustomTooltip("job_tooltip", 240);
 
       this.center = {
         x: this.width / 2,

@@ -1,6 +1,10 @@
 function CustomTooltip(tooltipId, width){
   var tooltipId = tooltipId;
-  $("body").append("<div class='tooltip' id='"+tooltipId+"'></div>");
+  var $existing = $('#'+tooltipId);
+
+  if ($existing.length === 0) {
+    $("body").append("<div class='tooltip' id='"+tooltipId+"'></div>");
+  }
 
   if(width){
     $("#"+tooltipId).css("width", width);
