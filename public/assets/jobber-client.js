@@ -830,11 +830,11 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 74,
+              "line": 73,
               "column": 6
             },
             "end": {
-              "line": 88,
+              "line": 87,
               "column": 6
             }
           },
@@ -849,6 +849,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           var el1 = dom.createTextNode("        ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
+          dom.setAttribute(el1, "class", "job-fields");
           var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
@@ -897,6 +898,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           var el1 = dom.createTextNode("\n        ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
+          dom.setAttribute(el1, "class", "job-summary");
           var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
@@ -930,7 +932,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           morphs[7] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [76, 24], [76, 33]]]], "job", ["get", "job", ["loc", [null, [76, 40], [76, 43]]]]], [], ["loc", [null, [76, 14], [76, 45]]]], ["content", "job.working_title", ["loc", [null, [77, 14], [77, 35]]]], ["content", "job.department", ["loc", [null, [78, 14], [78, 32]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [79, 30], [79, 37]]]], "MM/DD/YYYY"], [], ["loc", [null, [79, 14], [79, 52]]]], ["content", "job.location", ["loc", [null, [80, 14], [80, 30]]]], ["inline", "link-to", ["View", "job", ["get", "job", ["loc", [null, [81, 37], [81, 40]]]]], [], ["loc", [null, [81, 14], [81, 42]]]], ["attribute", "href", ["concat", [["get", "job.apply_link", ["loc", [null, [81, 66], [81, 80]]]]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [85, 23], [85, 34]]]]], ["limit", "400"], ["loc", [null, [85, 12], [85, 48]]]]],
+        statements: [["inline", "link-to", [["get", "job.title", ["loc", [null, [75, 24], [75, 33]]]], "job", ["get", "job", ["loc", [null, [75, 40], [75, 43]]]]], [], ["loc", [null, [75, 14], [75, 45]]]], ["content", "job.working_title", ["loc", [null, [76, 14], [76, 35]]]], ["content", "job.department", ["loc", [null, [77, 14], [77, 32]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [78, 30], [78, 37]]]], "MM/DD/YYYY"], [], ["loc", [null, [78, 14], [78, 52]]]], ["content", "job.location", ["loc", [null, [79, 14], [79, 30]]]], ["inline", "link-to", ["View", "job", ["get", "job", ["loc", [null, [80, 37], [80, 40]]]]], [], ["loc", [null, [80, 14], [80, 42]]]], ["attribute", "href", ["concat", [["get", "job.apply_link", ["loc", [null, [80, 66], [80, 80]]]]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [84, 23], [84, 34]]]]], ["limit", "400"], ["loc", [null, [84, 12], [84, 48]]]]],
         locals: ["job"],
         templates: []
       };
@@ -943,11 +945,11 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 88,
+              "line": 87,
               "column": 6
             },
             "end": {
-              "line": 90,
+              "line": 89,
               "column": 6
             }
           },
@@ -994,7 +996,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 94,
+            "line": 93,
             "column": 0
           }
         },
@@ -1194,10 +1196,11 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n\n");
+        var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "class", "table-responsive");
+        dom.setAttribute(el1, "id", "all-jobs");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("table");
@@ -1331,7 +1334,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         morphs[17] = dom.createMorphAt(dom.childAt(element10, [3]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "input", [], ["id", "text-filter", "value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [15, 43], [15, 53]]]]], [], []], "type", "text", "placeholder", "Search", "class", "form-control"], ["loc", [null, [15, 12], [15, 109]]]], ["attribute", "onchange", ["subexpr", "action", ["selectTitle"], ["value", "target.value"], ["loc", [null, [19, 47], [19, 92]]]]], ["block", "each", [["get", "uniqueTitles", ["loc", [null, [21, 22], [21, 34]]]]], [], 0, null, ["loc", [null, [21, 14], [23, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectDepartment"], ["value", "target.value"], ["loc", [null, [28, 52], [28, 102]]]]], ["block", "each", [["get", "uniqueDepartments", ["loc", [null, [30, 22], [30, 39]]]]], [], 1, null, ["loc", [null, [30, 14], [32, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectLocation"], ["value", "target.value"], ["loc", [null, [37, 50], [37, 98]]]]], ["block", "each", [["get", "uniqueLocations", ["loc", [null, [39, 22], [39, 37]]]]], [], 2, null, ["loc", [null, [39, 14], [41, 23]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [55, 12], [55, 37]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [56, 35], [56, 48]]]], "sorted"], [], ["loc", [null, [56, 30], [56, 59]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [56, 65], [56, 78]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [56, 60], [56, 128]]]], " glyphicon"]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [58, 12], [58, 45]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [59, 35], [59, 55]]]], "sorted"], [], ["loc", [null, [59, 30], [59, 66]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [59, 72], [59, 85]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [59, 67], [59, 135]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [61, 12], [61, 42]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [62, 35], [62, 53]]]], "sorted"], [], ["loc", [null, [62, 30], [62, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [62, 70], [62, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [62, 65], [62, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [64, 12], [64, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [65, 35], [65, 46]]]], "sorted"], [], ["loc", [null, [65, 30], [65, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [65, 63], [65, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [65, 58], [65, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [67, 12], [67, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [68, 35], [68, 51]]]], "sorted"], [], ["loc", [null, [68, 30], [68, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [68, 68], [68, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [68, 63], [68, 131]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [74, 14], [74, 27]]]]], [], 3, 4, ["loc", [null, [74, 6], [90, 15]]]]],
+      statements: [["inline", "input", [], ["id", "text-filter", "value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [15, 43], [15, 53]]]]], [], []], "type", "text", "placeholder", "Search", "class", "form-control"], ["loc", [null, [15, 12], [15, 109]]]], ["attribute", "onchange", ["subexpr", "action", ["selectTitle"], ["value", "target.value"], ["loc", [null, [19, 47], [19, 92]]]]], ["block", "each", [["get", "uniqueTitles", ["loc", [null, [21, 22], [21, 34]]]]], [], 0, null, ["loc", [null, [21, 14], [23, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectDepartment"], ["value", "target.value"], ["loc", [null, [28, 52], [28, 102]]]]], ["block", "each", [["get", "uniqueDepartments", ["loc", [null, [30, 22], [30, 39]]]]], [], 1, null, ["loc", [null, [30, 14], [32, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectLocation"], ["value", "target.value"], ["loc", [null, [37, 50], [37, 98]]]]], ["block", "each", [["get", "uniqueLocations", ["loc", [null, [39, 22], [39, 37]]]]], [], 2, null, ["loc", [null, [39, 14], [41, 23]]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [54, 12], [54, 37]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [55, 35], [55, 48]]]], "sorted"], [], ["loc", [null, [55, 30], [55, 59]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [55, 65], [55, 78]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [55, 60], [55, 128]]]], " glyphicon"]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [57, 12], [57, 45]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [58, 35], [58, 55]]]], "sorted"], [], ["loc", [null, [58, 30], [58, 66]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [58, 72], [58, 85]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [58, 67], [58, 135]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [60, 12], [60, 42]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [61, 35], [61, 53]]]], "sorted"], [], ["loc", [null, [61, 30], [61, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [61, 70], [61, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [61, 65], [61, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [63, 12], [63, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [64, 35], [64, 46]]]], "sorted"], [], ["loc", [null, [64, 30], [64, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [64, 63], [64, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [64, 58], [64, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [66, 12], [66, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [67, 35], [67, 51]]]], "sorted"], [], ["loc", [null, [67, 30], [67, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [67, 68], [67, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [67, 63], [67, 131]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [73, 14], [73, 27]]]]], [], 3, 4, ["loc", [null, [73, 6], [89, 15]]]]],
       locals: [],
       templates: [child0, child1, child2, child3, child4]
     };
@@ -1612,7 +1615,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+224a2d1c"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+df53a4bc"});
 }
 
 /* jshint ignore:end */

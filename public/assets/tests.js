@@ -1,3 +1,166 @@
+define('jobber-client/tests/acceptance/job-index-test', ['exports', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
+
+  (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | job index');
+
+  (0, _qunit.test)('showing the index page', function (assert) {
+    visit('/');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs').length, 1, "job table is present");
+      assert.equal(currentPath(), 'index', "showing the index page");
+      assert.equal(currentURL(), '/', "URL is correct");
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 138, "all jobs are shown");
+    });
+  });
+
+  (0, _qunit.test)('sorting job list', function (assert) {
+    visit('/');
+    click('#all-jobs thead tr th:first');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:first').text(), 'Academic Advisor', "title sorts ascending correctly");
+    });
+
+    click('#all-jobs thead tr th:first');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:first').text(), 'Vehicle Operator 2', "title sorts descending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(2)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Academic Advisor', "working title sorts ascending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(2)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(2)').text(), 'Water Quality Lab Research Aid', "working title sorts descending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(3)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(3)').text(), 'Ackerman Road', "department sorts ascending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(3)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(3)').text(), 'WCA-Ticket Services', "department sorts descending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(4)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(4)').text(), '12/15/2015', "end date sorts ascending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(4)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(4)').text(), '05/01/2016', "end date sorts descending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(5)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(5)').text(), '', "location sorts ascending correctly");
+    });
+
+    click('#all-jobs thead tr th:nth-child(5)');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr:first td:nth-child(5)').text(), 'Wooster', "location sorts descending correctly");
+    });
+  });
+
+  (0, _qunit.test)('filtering job list', function (assert) {
+    visit('/');
+    click('#filters-heading a');
+    fillIn('#text-filter', 'design');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 4, "only text filtered jobs are shown");
+    });
+
+    fillIn('#text-filter', '');
+    fillIn('#title-filter', 'Asst Director of Development');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 3, "only title filtered jobs are shown");
+    });
+
+    fillIn('#title-filter', '');
+    fillIn('#department-filter', 'OARnet');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 2, "only department filtered jobs are shown");
+    });
+
+    fillIn('#department-filter', '');
+    fillIn('#location-filter', 'Wooster');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 4, "only location filtered jobs are shown");
+    });
+
+    fillIn('#department-filter', 'FAES IT');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 1, "multiple filters are additive");
+    });
+  });
+});
+define('jobber-client/tests/acceptance/job-index-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance');
+  QUnit.test('acceptance/job-index-test.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/job-index-test.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/acceptance/navigation-test', ['exports', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
+
+  (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | navigation');
+
+  (0, _qunit.test)('navbar is present', function (assert) {
+    visit('/');
+
+    andThen(function () {
+      assert.equal(find('.navbar .navbar-header').length, 1, "page nav is present");
+    });
+  });
+
+  (0, _qunit.test)('linking to the salary page from the index page', function (assert) {
+    visit('/');
+    click('nav li a[href="/salary"]');
+
+    andThen(function () {
+      assert.equal(currentURL(), '/salary', "user navigates to the salary page");
+    });
+  });
+
+  (0, _qunit.test)('linking to the index page from the salary page', function (assert) {
+    visit('/salary');
+    click('nav li a[href="/"]');
+
+    andThen(function () {
+      assert.equal(currentURL(), '/', "user navigates to the index page");
+    });
+  });
+});
+define('jobber-client/tests/acceptance/navigation-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance');
+  QUnit.test('acceptance/navigation-test.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/navigation-test.js should pass jshint.');
+  });
+});
 define('jobber-client/tests/adapters/application.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -129,156 +292,6 @@ define('jobber-client/tests/helpers/truncate.jshint', ['exports'], function (exp
     assert.ok(true, 'helpers/truncate.js should pass jshint.');
   });
 });
-define('jobber-client/tests/integration/components/jobs-table-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleForComponent)('dynamic-table', 'Integration | Component | dynamic table', {
-    integration: true
-  });
-
-  (0, _emberQunit.test)('it renders', function (assert) {
-
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-
-    this.render(Ember.HTMLBars.template((function () {
-      return {
-        meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.2.0',
-          'loc': {
-            'source': null,
-            'start': {
-              'line': 1,
-              'column': 0
-            },
-            'end': {
-              'line': 1,
-              'column': 17
-            }
-          }
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment('');
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
-          return morphs;
-        },
-        statements: [['content', 'dynamic-table', ['loc', [null, [1, 0], [1, 17]]]]],
-        locals: [],
-        templates: []
-      };
-    })()));
-
-    assert.equal(this.$().text().trim(), '');
-
-    // Template block usage:" + EOL +
-    this.render(Ember.HTMLBars.template((function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.2.0',
-            'loc': {
-              'source': null,
-              'start': {
-                'line': 2,
-                'column': 4
-              },
-              'end': {
-                'line': 4,
-                'column': 4
-              }
-            }
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode('      template block text\n');
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
-        };
-      })();
-
-      return {
-        meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.2.0',
-          'loc': {
-            'source': null,
-            'start': {
-              'line': 1,
-              'column': 0
-            },
-            'end': {
-              'line': 5,
-              'column': 2
-            }
-          }
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode('\n');
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment('');
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode('  ');
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-          return morphs;
-        },
-        statements: [['block', 'dynamic-table', [], [], 0, null, ['loc', [null, [2, 4], [4, 22]]]]],
-        locals: [],
-        templates: [child0]
-      };
-    })()));
-
-    assert.equal(this.$().text().trim(), 'template block text');
-  });
-});
-define('jobber-client/tests/integration/components/jobs-table-test.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - integration/components');
-  QUnit.test('integration/components/jobs-table-test.js should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'integration/components/jobs-table-test.js should pass jshint.');
-  });
-});
 define('jobber-client/tests/models/job.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -326,50 +339,6 @@ define('jobber-client/tests/test-helper.jshint', ['exports'], function (exports)
   QUnit.test('test-helper.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'test-helper.js should pass jshint.');
-  });
-});
-define('jobber-client/tests/unit/adapters/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('adapter:application', 'Unit | Adapter | application', {
-    // Specify the other units that are required for this test.
-    // needs: ['serializer:foo']
-  });
-
-  // Replace this with your real tests.
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var adapter = this.subject();
-    assert.ok(adapter);
-  });
-});
-define('jobber-client/tests/unit/adapters/application-test.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - unit/adapters');
-  QUnit.test('unit/adapters/application-test.js should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/adapters/application-test.js should pass jshint.');
-  });
-});
-define('jobber-client/tests/unit/models/job-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleForModel)('job', 'Unit | Model | job', {
-    // Specify the other units that are required for this test.
-    needs: []
-  });
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var model = this.subject();
-    // let store = this.store();
-    assert.ok(!!model);
-  });
-});
-define('jobber-client/tests/unit/models/job-test.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - unit/models');
-  QUnit.test('unit/models/job-test.js should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/models/job-test.js should pass jshint.');
   });
 });
 /* jshint ignore:start */

@@ -47,8 +47,7 @@
   </div>
 </div>
 
-
-<div class="table-responsive">
+<div class="table-responsive" id="all-jobs">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -72,7 +71,7 @@
     </thead>
     <tbody>
       {{#each sortedContent as |job|}}
-        <tr>
+        <tr class="job-fields">
           <td>{{link-to job.title 'job' job}}</td>
           <td>{{job.working_title}}</td>
           <td>{{job.department}}</td>
@@ -80,7 +79,7 @@
           <td>{{job.location}}</td>
           <td>{{link-to 'View' 'job' job}}&nbsp;|&nbsp;<a href="{{job.apply_link}}">Apply</a></td>
         </tr>
-        <tr>
+        <tr class="job-summary">
           <td colspan="6">
             {{truncate job.summary limit="400"}}
           </td>
