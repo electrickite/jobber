@@ -145,6 +145,22 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
 define('jobber-client/controllers/array', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
 });
+define('jobber-client/controllers/index', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    init: function init() {
+      this._super();
+      _ember['default'].run.schedule('afterRender', this, function () {
+        this.send('foo');
+      });
+    },
+
+    actions: {
+      foo: function foo() {
+        _ember['default'].$('.footable').footable();
+      }
+    }
+  });
+});
 define('jobber-client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
 });
@@ -835,12 +851,12 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 73,
-              "column": 6
+              "line": 72,
+              "column": 4
             },
             "end": {
-              "line": 87,
-              "column": 6
+              "line": 86,
+              "column": 4
             }
           },
           "moduleName": "jobber-client/templates/components/jobs-table.hbs"
@@ -851,41 +867,43 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
+          var el1 = dom.createTextNode("      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
           dom.setAttribute(el1, "class", "job-fields");
-          var el2 = dom.createTextNode("\n          ");
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("td");
+          var el3 = dom.createElement("strong");
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           var el3 = dom.createComment("");
@@ -897,25 +915,25 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n      ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n        ");
+          var el1 = dom.createTextNode("\n      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
           dom.setAttribute(el1, "class", "job-summary");
-          var el2 = dom.createTextNode("\n          ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           dom.setAttribute(el2, "colspan", "6");
-          var el3 = dom.createTextNode("\n            ");
+          var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n          ");
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n      ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -927,7 +945,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           var element1 = dom.childAt(element0, [11]);
           var element2 = dom.childAt(element1, [2]);
           var morphs = new Array(8);
-          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 0]), 0, 0);
           morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 0, 0);
           morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 0, 0);
@@ -937,7 +955,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           morphs[7] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "link-to", [["get", "job.working_title", ["loc", [null, [75, 24], [75, 41]]]], "job", ["get", "job", ["loc", [null, [75, 48], [75, 51]]]]], [], ["loc", [null, [75, 14], [75, 53]]]], ["content", "job.title", ["loc", [null, [76, 14], [76, 27]]]], ["content", "job.department", ["loc", [null, [77, 14], [77, 32]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [78, 30], [78, 37]]]], "MM/DD/YYYY"], [], ["loc", [null, [78, 14], [78, 52]]]], ["content", "job.location", ["loc", [null, [79, 14], [79, 30]]]], ["inline", "link-to", ["View", "job", ["get", "job", ["loc", [null, [80, 37], [80, 40]]]]], [], ["loc", [null, [80, 14], [80, 42]]]], ["attribute", "href", ["concat", [["get", "job.apply_link", ["loc", [null, [80, 66], [80, 80]]]]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [84, 23], [84, 34]]]]], ["limit", "400"], ["loc", [null, [84, 12], [84, 48]]]]],
+        statements: [["inline", "link-to", [["get", "job.working_title", ["loc", [null, [74, 30], [74, 47]]]], "job", ["get", "job", ["loc", [null, [74, 54], [74, 57]]]]], [], ["loc", [null, [74, 20], [74, 59]]]], ["content", "job.title", ["loc", [null, [75, 12], [75, 25]]]], ["content", "job.department", ["loc", [null, [76, 12], [76, 30]]]], ["inline", "moment-format", [["get", "job.end", ["loc", [null, [77, 28], [77, 35]]]], "MM/DD/YYYY"], [], ["loc", [null, [77, 12], [77, 50]]]], ["content", "job.location", ["loc", [null, [78, 12], [78, 28]]]], ["inline", "link-to", ["View", "job", ["get", "job", ["loc", [null, [79, 35], [79, 38]]]]], [], ["loc", [null, [79, 12], [79, 40]]]], ["attribute", "href", ["concat", [["get", "job.apply_link", ["loc", [null, [79, 64], [79, 78]]]]]]], ["inline", "truncate", [["get", "job.summary", ["loc", [null, [83, 21], [83, 32]]]]], ["limit", "400"], ["loc", [null, [83, 10], [83, 46]]]]],
         locals: ["job"],
         templates: []
       };
@@ -950,12 +968,12 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 87,
-              "column": 6
+              "line": 86,
+              "column": 4
             },
             "end": {
-              "line": 89,
-              "column": 6
+              "line": 88,
+              "column": 4
             }
           },
           "moduleName": "jobber-client/templates/components/jobs-table.hbs"
@@ -966,7 +984,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
+          var el1 = dom.createTextNode("      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("tr");
           var el2 = dom.createElement("td");
@@ -1001,7 +1019,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 93,
+            "line": 91,
             "column": 0
           }
         },
@@ -1203,95 +1221,92 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "table-responsive");
+        var el1 = dom.createElement("table");
+        dom.setAttribute(el1, "class", "table table-striped footable");
         dom.setAttribute(el1, "id", "all-jobs");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("table");
-        dom.setAttribute(el2, "class", "table table-striped");
+        var el2 = dom.createElement("thead");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("thead");
+        var el3 = dom.createElement("tr");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("tr");
-        var el5 = dom.createTextNode("\n        ");
+        var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("Title\n        ");
         dom.appendChild(el4, el5);
-        var el5 = dom.createElement("th");
-        var el6 = dom.createTextNode("Title\n          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("span");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("th");
-        var el6 = dom.createTextNode("University Title\n          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("span");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("th");
-        var el6 = dom.createTextNode("Department\n          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("span");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("th");
-        var el6 = dom.createTextNode("Posting End Date\n          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("span");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("th");
-        var el6 = dom.createTextNode("Location\n          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("span");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("th");
-        var el6 = dom.createElement("span");
-        dom.setAttribute(el6, "class", "sr-only");
-        var el7 = dom.createTextNode("Actions");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
+        var el5 = dom.createElement("span");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        dom.setAttribute(el4, "data-hide", "phone,tablet");
+        var el5 = dom.createTextNode("University Title\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        var el5 = dom.createTextNode("Department\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        dom.setAttribute(el4, "data-hide", "phone");
+        var el5 = dom.createTextNode("Posting End Date\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        dom.setAttribute(el4, "data-hide", "phone,tablet");
+        var el5 = dom.createTextNode("Location\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("th");
+        dom.setAttribute(el4, "data-hide", "phone,tablet");
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5, "class", "sr-only");
+        var el6 = dom.createTextNode("Actions");
+        dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("tbody");
-        var el4 = dom.createTextNode("\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("tbody");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -1306,7 +1321,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         var element7 = dom.childAt(element6, [3, 3]);
         var element8 = dom.childAt(element6, [5, 3]);
         var element9 = dom.childAt(element6, [7, 3]);
-        var element10 = dom.childAt(fragment, [2, 1]);
+        var element10 = dom.childAt(fragment, [2]);
         var element11 = dom.childAt(element10, [1, 1]);
         var element12 = dom.childAt(element11, [1]);
         var element13 = dom.childAt(element12, [1]);
@@ -1339,7 +1354,7 @@ define("jobber-client/templates/components/jobs-table", ["exports"], function (e
         morphs[17] = dom.createMorphAt(dom.childAt(element10, [3]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "input", [], ["id", "text-filter", "value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [15, 43], [15, 53]]]]], [], []], "type", "text", "placeholder", "Search", "class", "form-control"], ["loc", [null, [15, 12], [15, 109]]]], ["attribute", "onchange", ["subexpr", "action", ["selectTitle"], ["value", "target.value"], ["loc", [null, [19, 47], [19, 92]]]]], ["block", "each", [["get", "uniqueTitles", ["loc", [null, [21, 22], [21, 34]]]]], [], 0, null, ["loc", [null, [21, 14], [23, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectDepartment"], ["value", "target.value"], ["loc", [null, [28, 52], [28, 102]]]]], ["block", "each", [["get", "uniqueDepartments", ["loc", [null, [30, 22], [30, 39]]]]], [], 1, null, ["loc", [null, [30, 14], [32, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectLocation"], ["value", "target.value"], ["loc", [null, [37, 50], [37, 98]]]]], ["block", "each", [["get", "uniqueLocations", ["loc", [null, [39, 22], [39, 37]]]]], [], 2, null, ["loc", [null, [39, 14], [41, 23]]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [54, 12], [54, 45]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [55, 35], [55, 55]]]], "sorted"], [], ["loc", [null, [55, 30], [55, 66]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [55, 72], [55, 85]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [55, 67], [55, 135]]]], " glyphicon"]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [57, 12], [57, 37]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [58, 35], [58, 48]]]], "sorted"], [], ["loc", [null, [58, 30], [58, 59]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [58, 65], [58, 78]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [58, 60], [58, 128]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [60, 12], [60, 42]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [61, 35], [61, 53]]]], "sorted"], [], ["loc", [null, [61, 30], [61, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [61, 70], [61, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [61, 65], [61, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [63, 12], [63, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [64, 35], [64, 46]]]], "sorted"], [], ["loc", [null, [64, 30], [64, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [64, 63], [64, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [64, 58], [64, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [66, 12], [66, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [67, 35], [67, 51]]]], "sorted"], [], ["loc", [null, [67, 30], [67, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [67, 68], [67, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [67, 63], [67, 131]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [73, 14], [73, 27]]]]], [], 3, 4, ["loc", [null, [73, 6], [89, 15]]]]],
+      statements: [["inline", "input", [], ["id", "text-filter", "value", ["subexpr", "@mut", [["get", "filterText", ["loc", [null, [15, 43], [15, 53]]]]], [], []], "type", "text", "placeholder", "Search", "class", "form-control"], ["loc", [null, [15, 12], [15, 109]]]], ["attribute", "onchange", ["subexpr", "action", ["selectTitle"], ["value", "target.value"], ["loc", [null, [19, 47], [19, 92]]]]], ["block", "each", [["get", "uniqueTitles", ["loc", [null, [21, 22], [21, 34]]]]], [], 0, null, ["loc", [null, [21, 14], [23, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectDepartment"], ["value", "target.value"], ["loc", [null, [28, 52], [28, 102]]]]], ["block", "each", [["get", "uniqueDepartments", ["loc", [null, [30, 22], [30, 39]]]]], [], 1, null, ["loc", [null, [30, 14], [32, 23]]]], ["attribute", "onchange", ["subexpr", "action", ["selectLocation"], ["value", "target.value"], ["loc", [null, [37, 50], [37, 98]]]]], ["block", "each", [["get", "uniqueLocations", ["loc", [null, [39, 22], [39, 37]]]]], [], 2, null, ["loc", [null, [39, 14], [41, 23]]]], ["element", "action", ["sort", "working_title"], [], ["loc", [null, [53, 10], [53, 43]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnWorkingTitle", ["loc", [null, [54, 33], [54, 53]]]], "sorted"], [], ["loc", [null, [54, 28], [54, 64]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [54, 70], [54, 83]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [54, 65], [54, 133]]]], " glyphicon"]]], ["element", "action", ["sort", "title"], [], ["loc", [null, [56, 10], [56, 35]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnTitle", ["loc", [null, [57, 33], [57, 46]]]], "sorted"], [], ["loc", [null, [57, 28], [57, 57]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [57, 63], [57, 76]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [57, 58], [57, 126]]]], " glyphicon"]]], ["element", "action", ["sort", "department"], [], ["loc", [null, [59, 10], [59, 40]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnDepartment", ["loc", [null, [60, 33], [60, 51]]]], "sorted"], [], ["loc", [null, [60, 28], [60, 62]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [60, 68], [60, 81]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [60, 63], [60, 131]]]], " glyphicon"]]], ["element", "action", ["sort", "end"], [], ["loc", [null, [62, 10], [62, 33]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnEnd", ["loc", [null, [63, 33], [63, 44]]]], "sorted"], [], ["loc", [null, [63, 28], [63, 55]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [63, 61], [63, 74]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [63, 56], [63, 124]]]], " glyphicon"]]], ["element", "action", ["sort", "location"], [], ["loc", [null, [65, 10], [65, 38]]]], ["attribute", "class", ["concat", ["sorter ", ["subexpr", "if", [["get", "sortedOnLocation", ["loc", [null, [66, 33], [66, 49]]]], "sorted"], [], ["loc", [null, [66, 28], [66, 60]]]], " ", ["subexpr", "if", [["get", "sortAscending", ["loc", [null, [66, 66], [66, 79]]]], "glyphicon-chevron-down", "glyphicon-chevron-up"], [], ["loc", [null, [66, 61], [66, 129]]]], " glyphicon"]]], ["block", "each", [["get", "sortedContent", ["loc", [null, [72, 12], [72, 25]]]]], [], 3, 4, ["loc", [null, [72, 4], [88, 13]]]]],
       locals: [],
       templates: [child0, child1, child2, child3, child4]
     };
@@ -2020,7 +2035,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+5564d135"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+f29ac70e"});
 }
 
 /* jshint ignore:end */

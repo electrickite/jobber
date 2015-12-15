@@ -21,7 +21,6 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   app.import('bower_components/bootstrap/dist/css/bootstrap.css');
-  //app.import('bower_components/bootstrap/dist/css/bootstrap-theme.css');
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
   app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot', {
@@ -43,6 +42,12 @@ module.exports = function(defaults) {
   app.import('bower_components/d3/d3.js');
   app.import('vendor/bubblechart.js');
   app.import('vendor/tooltip.js');
+  app.import('vendor/footable/footable.js');
+  app.import('vendor/footable/footable.css');
+  app.import('vendor/footable/footable.eot', {destDir: 'fonts'});
+  app.import('vendor/footable/footable.svg', {destDir: 'fonts'});
+  app.import('vendor/footable/footable.ttf', {destDir: 'fonts'});
+  app.import('vendor/footable/footable.woff', {destDir: 'fonts'});
 
   return app.toTree();
 };

@@ -47,46 +47,44 @@
   </div>
 </div>
 
-<div class="table-responsive" id="all-jobs">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th {{action "sort" "working_title"}}>Title
-          <span class="sorter {{if sortedOnWorkingTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-        </th>
-        <th {{action "sort" "title"}}>University Title
-          <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-        </th>
-        <th {{action "sort" "department"}}>Department
-          <span class="sorter {{if sortedOnDepartment "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-        </th>
-        <th {{action "sort" "end"}}>Posting End Date
-          <span class="sorter {{if sortedOnEnd "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-        </th>
-        <th {{action "sort" "location"}}>Location
-          <span class="sorter {{if sortedOnLocation "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-        </th>
-        <th><span class="sr-only">Actions</span></th>
+<table class="table table-striped footable" id="all-jobs">
+  <thead>
+    <tr>
+      <th {{action "sort" "working_title"}}>Title
+        <span class="sorter {{if sortedOnWorkingTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "title"}} data-hide="phone,tablet">University Title
+        <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "department"}}>Department
+        <span class="sorter {{if sortedOnDepartment "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "end"}} data-hide="phone">Posting End Date
+        <span class="sorter {{if sortedOnEnd "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th {{action "sort" "location"}} data-hide="phone,tablet">Location
+        <span class="sorter {{if sortedOnLocation "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+      </th>
+      <th data-hide="phone,tablet"><span class="sr-only">Actions</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each sortedContent as |job|}}
+      <tr class="job-fields">
+        <td><strong>{{link-to job.working_title 'job' job}}</strong></td>
+        <td>{{job.title}}</td>
+        <td>{{job.department}}</td>
+        <td>{{moment-format job.end "MM/DD/YYYY"}}</td>
+        <td>{{job.location}}</td>
+        <td>{{link-to 'View' 'job' job}}&nbsp;|&nbsp;<a href="{{job.apply_link}}">Apply</a></td>
       </tr>
-    </thead>
-    <tbody>
-      {{#each sortedContent as |job|}}
-        <tr class="job-fields">
-          <td>{{link-to job.working_title 'job' job}}</td>
-          <td>{{job.title}}</td>
-          <td>{{job.department}}</td>
-          <td>{{moment-format job.end "MM/DD/YYYY"}}</td>
-          <td>{{job.location}}</td>
-          <td>{{link-to 'View' 'job' job}}&nbsp;|&nbsp;<a href="{{job.apply_link}}">Apply</a></td>
-        </tr>
-        <tr class="job-summary">
-          <td colspan="6">
-            {{truncate job.summary limit="400"}}
-          </td>
-        </tr>
-      {{else}}
-        <tr><td colspan="6">No jobs found</td></tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+      <tr class="job-summary">
+        <td colspan="6">
+          {{truncate job.summary limit="400"}}
+        </td>
+      </tr>
+    {{else}}
+      <tr><td colspan="6">No jobs found</td></tr>
+    {{/each}}
+  </tbody>
+</table>
