@@ -85,7 +85,7 @@ function fetchJob(id) {
     job.desired = getRowValue($table, 'Desired Qualifications');
     job.salary = getRowValue($table, 'Target Salary');
     job.category = getRowValue($table, 'Job Category');
-    job.fte = parseFloat(getRowValue($table, 'Job Appointment')) / 100;
+    job.fte = parseFte(getRowValue($table, 'Job Appointment'));
     job.time = getRowValue($table, 'Full/Part Time');
     job.duration = getRowValue($table, 'Temporary or Regular');
     job.start = start.toJSON();
@@ -111,6 +111,16 @@ function getIdFromUrl(url) {
   return parseInt(url.substring(n + 1));
 }
 
+// Try to get a sane value for FTE percentage
+function parseFte(fte) {
+  var fte = parseFloat(fte);
+  if (fte > 1) {
+    return fte / 100;
+  } else {
+    return fte;
+  }
+}
+
 // Finds real salaries from salary range string
 function addSalariesToJob(job) {
   job.salary = job.salary.trim();
@@ -129,6 +139,7 @@ function addSalariesToJob(job) {
   }
 
   if (job.salary.match("Hourly$") == 'Hourly') {
+    // Average work hours per year is 2087
     job.salary_low = job.salary_low * job.fte * 2087;
     job.salary_high = job.salary_high * job.fte * 2087;
   }
