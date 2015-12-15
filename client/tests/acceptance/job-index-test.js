@@ -115,3 +115,13 @@ test('filtering job list', function(assert) {
     assert.equal(find('#all-jobs tbody tr.job-fields').length, 1, "multiple filters are additive");
   });
 });
+
+
+test('index after deep linking', function(assert) {
+  visit('/job/67237');
+  click('nav li a[href="/"]');
+
+  andThen(function() {
+    assert.equal(find('#all-jobs tbody tr.job-fields').length, 138, "all jobs loaded after deep linking");
+  });
+});
