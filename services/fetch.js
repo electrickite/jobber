@@ -126,24 +126,34 @@ function addSalariesToJob(job) {
   job.salary = job.salary.trim();
   job.salary_low = job.salary_high = job.salary_average = 0;
 
+  // Bail if we do not have a salary string
   if (!job.salary) return;
 
+  // Get numeric portions of string
   var numbers = job.salary.replace(/[^\d.-]/g, '');
   var parts = numbers.split('-');
 
+  // If the salary field contains numbers, the numbers before the dash are low
   if (numbers.length > 0) {
     job.salary_low = parseFloat(parts[0]);
   }
+
+  // If there are numbers after a dash, they are the high salary, otherwise
+  // high is the same as low
   if (parts.length > 1) {
     job.salary_high = parseFloat(parts[1]);
+  } else {
+    job.salary_high = job.salary_low;
   }
 
+  // If salary ends with Hourly, convert to yearly salary
   if (job.salary.match("Hourly$") == 'Hourly') {
     // Average work hours per year is 2087
     job.salary_low = job.salary_low * job.fte * 2087;
     job.salary_high = job.salary_high * job.fte * 2087;
   }
 
+  // Finally, get the average salary
   job.salary_average = (job.salary_low + job.salary_high) / 2;
 }
 
