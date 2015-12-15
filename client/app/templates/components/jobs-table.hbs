@@ -51,16 +51,16 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th {{action "sort" "title"}}>Title
-          <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
-        </th>
-        <th {{action "sort" "working_title"}}>Working Title
+        <th {{action "sort" "working_title"}}>Title
           <span class="sorter {{if sortedOnWorkingTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
+        </th>
+        <th {{action "sort" "title"}}>University Title
+          <span class="sorter {{if sortedOnTitle "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
         </th>
         <th {{action "sort" "department"}}>Department
           <span class="sorter {{if sortedOnDepartment "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
         </th>
-        <th {{action "sort" "end"}}>End Date
+        <th {{action "sort" "end"}}>Posting End Date
           <span class="sorter {{if sortedOnEnd "sorted"}} {{if sortAscending "glyphicon-chevron-down" "glyphicon-chevron-up"}} glyphicon"></span>
         </th>
         <th {{action "sort" "location"}}>Location
@@ -72,8 +72,8 @@
     <tbody>
       {{#each sortedContent as |job|}}
         <tr class="job-fields">
-          <td>{{link-to job.title 'job' job}}</td>
-          <td>{{job.working_title}}</td>
+          <td>{{link-to job.working_title 'job' job}}</td>
+          <td>{{job.title}}</td>
           <td>{{job.department}}</td>
           <td>{{moment-format job.end "MM/DD/YYYY"}}</td>
           <td>{{job.location}}</td>

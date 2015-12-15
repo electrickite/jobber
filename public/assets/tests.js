@@ -112,6 +112,15 @@ define('jobber-client/tests/acceptance/job-index-test', ['exports', 'qunit', 'jo
       assert.equal(find('#all-jobs tbody tr.job-fields').length, 1, "multiple filters are additive");
     });
   });
+
+  (0, _qunit.test)('index after deep linking', function (assert) {
+    visit('/job/67237');
+    click('nav li a[href="/"]');
+
+    andThen(function () {
+      assert.equal(find('#all-jobs tbody tr.job-fields').length, 138, "all jobs loaded after deep linking");
+    });
+  });
 });
 define('jobber-client/tests/acceptance/job-index-test.jshint', ['exports'], function (exports) {
   'use strict';
@@ -120,6 +129,40 @@ define('jobber-client/tests/acceptance/job-index-test.jshint', ['exports'], func
   QUnit.test('acceptance/job-index-test.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/job-index-test.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/acceptance/job-show-test', ['exports', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
+
+  (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | job show');
+
+  (0, _qunit.test)('showing the job posting page', function (assert) {
+    visit('/job/67237');
+
+    andThen(function () {
+      assert.equal(currentPath(), 'job', "showing the job posting page");
+      assert.equal(currentURL(), '/job/67237', "URL is correct");
+      assert.equal(find('h1').text(), 'Secretary - OMFS Office Associate', "job page is rendered");
+    });
+  });
+
+  (0, _qunit.test)('linking to job page from job index', function (assert) {
+    visit('/');
+    fillIn('#text-filter', 'OMFS');
+    click('#all-jobs tbody tr:first td:first');
+
+    andThen(function () {
+      assert.equal(currentPath(), 'job', "showing the job posting page");
+      assert.equal(find('h1').text(), 'Secretary - OMFS Office Associate', "job page is rendered after link");
+    });
+  });
+});
+define('jobber-client/tests/acceptance/job-show-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance');
+  QUnit.test('acceptance/job-show-test.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/job-show-test.js should pass jshint.');
   });
 });
 define('jobber-client/tests/acceptance/navigation-test', ['exports', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
@@ -159,6 +202,46 @@ define('jobber-client/tests/acceptance/navigation-test.jshint', ['exports'], fun
   QUnit.test('acceptance/navigation-test.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/navigation-test.js should pass jshint.');
+  });
+});
+define('jobber-client/tests/acceptance/salary-vis-test', ['exports', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
+
+  (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | job index');
+
+  (0, _qunit.test)('showing the salary visualization page', function (assert) {
+    var promise = $.Deferred();
+    visit('/salary');
+
+    andThen(function () {
+      assert.equal(currentPath(), 'salary', "showing the salary page");
+      assert.equal(currentURL(), '/salary', "URL is correct");
+
+      Ember.run.later(function () {
+        assert.equal(find('#vis svg').length, 1, "visualization has rendered");
+        promise.resolve();
+      }, 1000);
+    });
+  });
+
+  (0, _qunit.test)('running the salary visualization', function (assert) {
+    var promise = $.Deferred();
+    visit('/salary');
+
+    andThen(function () {
+      Ember.run.later(function () {
+        assert.equal(find('#vis svg circle').length, 138, "visualization has correct number of nodes");
+        promise.resolve();
+      }, 1000);
+    });
+  });
+});
+define('jobber-client/tests/acceptance/salary-vis-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance');
+  QUnit.test('acceptance/salary-vis-test.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'acceptance/salary-vis-test.js should pass jshint.\nacceptance/salary-vis-test.js: line 14, col 5, \'Ember\' is not defined.\nacceptance/salary-vis-test.js: line 26, col 5, \'Ember\' is not defined.\n\n2 errors');
   });
 });
 define('jobber-client/tests/adapters/application.jshint', ['exports'], function (exports) {
