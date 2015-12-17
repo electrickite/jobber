@@ -206,7 +206,7 @@ define('jobber-client/tests/acceptance/navigation-test.jshint', ['exports'], fun
 });
 define('jobber-client/tests/acceptance/salary-vis-test', ['exports', 'ember', 'qunit', 'jobber-client/tests/helpers/module-for-acceptance'], function (exports, _ember, _qunit, _jobberClientTestsHelpersModuleForAcceptance) {
 
-  (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | job index');
+  (0, _jobberClientTestsHelpersModuleForAcceptance['default'])('Acceptance | salary visualization');
 
   (0, _qunit.test)('showing the salary visualization page', function (assert) {
     var promise = $.Deferred();

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from 'jobber-client/tests/helpers/module-for-acceptance';
 
-moduleForAcceptance('Acceptance | job index');
+moduleForAcceptance('Acceptance | salary visualization');
 
 test('showing the salary visualization page', function(assert) {
   var promise = $.Deferred();
