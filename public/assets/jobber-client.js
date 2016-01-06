@@ -40,7 +40,7 @@ define('jobber-client/components/jobs-table', ['exports', 'ember'], function (ex
     sortAscending: true,
     sortDef: [],
     filterText: '',
-    filterFields: _ember['default'].A(['title', 'working_title', 'department', 'location', 'end']),
+    filterFields: _ember['default'].A(['title', 'working_title', 'department', 'location', 'end', 'summary']),
 
     filteredContent: _ember['default'].computed.filter('content', function (job) {
       var matches = 0,
@@ -2041,7 +2041,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+a93bd163"});
+  require("jobber-client/app")["default"].create({"name":"jobber-client","version":"0.1.0+32cb6d7a"});
 }
 
 /* jshint ignore:end */

@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   sortAscending: true,
   sortDef: [],
   filterText: '',
-  filterFields: Ember.A(['title', 'working_title', 'department', 'location', 'end']),
+  filterFields: Ember.A(['title', 'working_title', 'department', 'location', 'end', 'summary']),
 
   filteredContent: Ember.computed.filter('content', function(job) {
     var matches = 0,
